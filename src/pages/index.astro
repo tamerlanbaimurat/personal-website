@@ -1,0 +1,31 @@
+---
+import Contact from '../components/Contact.astro'
+import Experience from '../components/Experience.astro'
+import Header from '../components/Header.astro'
+import Hero from '../components/Hero.astro'
+import Hobbies from '../components/Hobbies.astro'
+import Projects from '../components/Projects.astro'
+import Skills from '../components/Skills.astro'
+import Layout from '../layouts/Layout.astro'
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+	<Header />
+	<main>
+		<Hero />
+		<Experience />
+		<Skills />
+		<Projects />
+		<Hobbies />
+		<Contact />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin-top: 4rem;
+	}
+</style>

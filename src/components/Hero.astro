@@ -1,0 +1,97 @@
+<section class="hero" id="about">
+	<div class="container">
+		<h1>Tamerlan Baimurat</h1>
+		<p class="subtitle">Software Developer & Tech Enthusiast</p>
+		<p class="description">
+			I'm passionate about creating elegant solutions to complex problems. 
+			With a strong foundation in software development and a keen eye for detail, 
+			I strive to build applications that make a difference.
+		</p>
+		<div class="cta-buttons">
+			<a href="#projects" class="primary-button">View My Work</a>
+			<a href="#contact" class="secondary-button">Get in Touch</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		background: linear-gradient(to bottom right, #ffffff, #f6f6f6);
+	}
+
+	.container {
+		max-width: 800px;
+		text-align: center;
+	}
+
+	h1 {
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+		color: #333;
+	}
+
+	.subtitle {
+		font-size: 1.5rem;
+		color: rgb(var(--accent));
+		margin-bottom: 2rem;
+	}
+
+	.description {
+		font-size: 1.2rem;
+		line-height: 1.6;
+		color: #666;
+		margin-bottom: 2rem;
+	}
+
+	.cta-buttons {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+	}
+
+	.primary-button, .secondary-button {
+		padding: 0.8rem 2rem;
+		border-radius: 5px;
+		text-decoration: none;
+		font-weight: 500;
+		transition: transform 0.2s;
+	}
+
+	.primary-button {
+		background: rgb(var(--accent));
+		color: white;
+	}
+
+	.secondary-button {
+		background: transparent;
+		color: rgb(var(--accent));
+		border: 2px solid rgb(var(--accent));
+	}
+
+	.primary-button:hover, .secondary-button:hover {
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 2.5rem;
+		}
+
+		.subtitle {
+			font-size: 1.2rem;
+		}
+
+		.description {
+			font-size: 1rem;
+		}
+
+		.cta-buttons {
+			flex-direction: column;
+		}
+	}
+</style> 

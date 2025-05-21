@@ -1,0 +1,168 @@
+---
+const experiences = [
+	{
+		title: "Software Engineer (Part-Time, Internship)",
+		company: "Attire LLC",
+		location: "USA",
+		period: "January 2024 – May 2024",
+		responsibilities: [
+			"Developed and integrated Flutter-based intuitive interfaces and implemented Firebase authorization for enhanced user engagement and security",
+			"Engineered a full-stack architecture integrating FastAPI backend with Flutter frontend, optimizing RESTful API endpoints for seamless communication",
+			"Designed and deployed a chatbot using OpenAI, ChatGPT, and RAG Langchain, enhancing user interaction with intelligent automation"
+		]
+	},
+	{
+		title: "Full-Stack Developer (Part-Time, Internship)",
+		company: "AlmaEco",
+		location: "Astana, Kazakhstan",
+		period: "May 2024 – August 2024",
+		responsibilities: [
+			"Developed a fully responsive, multi-language website for AlmaEco, a company specializing in international medical treatment and doctor training",
+			"Built React.js and Tailwind CSS frontend, ensuring fast and seamless user experience, and Python FastAPI backend for high-performance data handling",
+			"Integrated React i18n for multilingual support, deployed the application on a Linux Ubuntu 24.04 server using Nginx, and optimized site speed and security"
+		]
+	},
+	{
+		title: "Research Assistant",
+		company: "Boston University, Department of Pharmacology",
+		location: "USA",
+		period: "September 2024 – January 2024",
+		responsibilities: [
+			"Gained extensive training in wet lab techniques, including E. coli culturing, protein purification, and chromatographic methods",
+			"Developed a Python script for narrowing down potential amino acids based on NMR spectroscopy chemical shift ranges, streamlining amino acid assignment"
+		]
+	},
+	{
+		title: "Teaching Assistant (CSE 231 – Python Programming)",
+		company: "Michigan State University",
+		location: "USA",
+		period: "January 2024 – May 2024",
+		responsibilities: [
+			"Led weekly Python programming labs for 47 students, providing guidance on coding exercises, debugging, algorithm-dev",
+			"Fostered collaborative learning through peer discussions, group projects, and structured assignments using Python"
+		]
+	}
+];
+---
+
+<section class="experience" id="experience">
+	<div class="container">
+		<h2>Work Experience</h2>
+		<div class="timeline">
+			{experiences.map((exp) => (
+				<div class="timeline-item">
+					<div class="timeline-content">
+						<h3>{exp.title}</h3>
+						<div class="company-info">
+							<span class="company">{exp.company}</span>
+							<span class="location">{exp.location}</span>
+							<span class="period">{exp.period}</span>
+						</div>
+						<ul class="responsibilities">
+							{exp.responsibilities.map((resp) => (
+								<li>{resp}</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.experience {
+		padding: 6rem 2rem;
+		background: white;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: #333;
+		margin-bottom: 3rem;
+		text-align: center;
+	}
+
+	.timeline {
+		position: relative;
+	}
+
+	.timeline::before {
+		content: '';
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 2px;
+		height: 100%;
+		background: rgb(var(--accent));
+	}
+
+	.timeline-item {
+		margin-bottom: 3rem;
+		position: relative;
+	}
+
+	.timeline-content {
+		background: #f8f9fa;
+		padding: 2rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		width: calc(50% - 2rem);
+		margin-left: auto;
+	}
+
+	.timeline-item:nth-child(even) .timeline-content {
+		margin-left: 0;
+		margin-right: auto;
+	}
+
+	h3 {
+		color: rgb(var(--accent));
+		margin-bottom: 0.5rem;
+		font-size: 1.3rem;
+	}
+
+	.company-info {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
+		color: #666;
+	}
+
+	.responsibilities {
+		list-style-type: disc;
+		padding-left: 1.5rem;
+		color: #444;
+	}
+
+	.responsibilities li {
+		margin-bottom: 0.5rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 768px) {
+		.timeline::before {
+			left: 0;
+		}
+
+		.timeline-content {
+			width: calc(100% - 2rem);
+			margin-left: 2rem;
+		}
+
+		.timeline-item:nth-child(even) .timeline-content {
+			margin-left: 2rem;
+		}
+
+		.company-info {
+			flex-direction: column;
+			gap: 0.3rem;
+		}
+	}
+</style> 

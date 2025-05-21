@@ -1,0 +1,157 @@
+---
+const projects = [
+	{
+		title: "Telegram Bot with OpenAI API",
+		period: "January 2024 – April 2024",
+		description: "Built a feature-rich Telegram Bot using Python and OpenAI API, integrating real-time weather updates, AI-driven text/image processing, and ChatGPT-like interactions.",
+		technologies: ["Python", "OpenAI API", "OOP", "Telegram API"],
+		link: "https://github.com/yourusername/telegram-bot"
+	},
+	{
+		title: "Ergonomic Keyboard Research Project",
+		period: "September 2021 – May 2022",
+		description: "Designed and developed an ergonomic keyboard using KiCad, reducing Carpal Tunnel Syndrome risks by 20 percent. Adapted C firmware, led a team, and placed Top 40 out of 300 Teams in the Samsung Solve for Tomorrow Kazakhstan Project Olympiad. Authored a research paper (unpublished) in Russian and English.",
+		technologies: ["KiCad", "C Programming Language"],
+		link: "https://github.com/yourusername/ergonomic-keyboard"
+	}
+];
+---
+
+<section class="projects" id="projects">
+	<div class="container">
+		<h2>Projects</h2>
+		<div class="projects-grid">
+			{projects.map((project) => (
+				<div class="project-card">
+					<div class="project-header">
+						<h3>{project.title}</h3>
+						<span class="period">{project.period}</span>
+					</div>
+					<p class="description">{project.description}</p>
+					<div class="technologies">
+						{project.technologies.map((tech) => (
+							<span class="tech-tag">{tech}</span>
+						))}
+					</div>
+					<a href={project.link} class="project-link" target="_blank" rel="noopener noreferrer">
+						View on GitHub
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+							<polyline points="15 3 21 3 21 9"></polyline>
+							<line x1="10" y1="14" x2="21" y2="3"></line>
+						</svg>
+					</a>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.projects {
+		padding: 6rem 2rem;
+		background: white;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: #333;
+		margin-bottom: 3rem;
+		text-align: center;
+	}
+
+	.projects-grid {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.project-card {
+		background: #f8f9fa;
+		padding: 2rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.project-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.project-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 1rem;
+	}
+
+	h3 {
+		color: rgb(var(--accent));
+		font-size: 1.3rem;
+	}
+
+	.period {
+		color: #666;
+		font-size: 0.9rem;
+	}
+
+	.description {
+		color: #444;
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+	}
+
+	.technologies {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.tech-tag {
+		background: rgba(var(--accent), 0.1);
+		color: rgb(var(--accent));
+		padding: 0.4rem 0.8rem;
+		border-radius: 15px;
+		font-size: 0.9rem;
+	}
+
+	.project-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: rgb(var(--accent));
+		text-decoration: none;
+		font-weight: 500;
+		transition: gap 0.2s;
+	}
+
+	.project-link:hover {
+		gap: 0.8rem;
+	}
+
+	@media (max-width: 768px) {
+		.projects {
+			padding: 4rem 1rem;
+		}
+
+		.project-header {
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.technologies {
+			gap: 0.5rem;
+		}
+
+		.tech-tag {
+			font-size: 0.8rem;
+			padding: 0.3rem 0.6rem;
+		}
+	}
+</style> 

@@ -1,0 +1,59 @@
+---
+const navItems = [
+	{ href: '#about', text: 'About' },
+	{ href: '#experience', text: 'Experience' },
+	{ href: '#skills', text: 'Skills' },
+	{ href: '#projects', text: 'Projects' },
+	{ href: '#hobbies', text: 'Hobbies' },
+];
+---
+
+<header class="header">
+	<nav>
+		<ul>
+			{navItems.map((item) => (
+				<li>
+					<a href={item.href}>{item.text}</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+</header>
+
+<style>
+	.header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		background: rgba(255, 255, 255, 0.9);
+		backdrop-filter: blur(10px);
+		z-index: 100;
+		padding: 1rem 2rem;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	}
+
+	nav ul {
+		display: flex;
+		gap: 2rem;
+		list-style: none;
+		justify-content: center;
+	}
+
+	a {
+		color: #333;
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.2s;
+	}
+
+	a:hover {
+		color: rgb(var(--accent));
+	}
+
+	@media (max-width: 768px) {
+		nav ul {
+			gap: 1rem;
+		}
+	}
+</style> 

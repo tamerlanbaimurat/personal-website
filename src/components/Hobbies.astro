@@ -1,0 +1,102 @@
+---
+const hobbies = [
+	{
+		title: "Guitar",
+		description: "Passionate about playing guitar, exploring different genres and techniques.",
+		icon: "🎸"
+	},
+	{
+		title: "Biking",
+		description: "Enjoy exploring new trails and staying active through cycling.",
+		icon: "🚴"
+	},
+	{
+		title: "Music",
+		description: "Love for J-rock, Russian hyper pop, and rap music.",
+		icon: "🎵"
+	}
+];
+---
+
+<section class="hobbies" id="hobbies">
+	<div class="container">
+		<h2>Hobbies & Interests</h2>
+		<div class="hobbies-grid">
+			{hobbies.map((hobby) => (
+				<div class="hobby-card">
+					<div class="hobby-icon">{hobby.icon}</div>
+					<h3>{hobby.title}</h3>
+					<p>{hobby.description}</p>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.hobbies {
+		padding: 6rem 2rem;
+		background: #f8f9fa;
+		display: flex;
+		align-items: center;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: #333;
+		margin-bottom: 3rem;
+		text-align: center;
+	}
+
+	.hobbies-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+	}
+
+	.hobby-card {
+		background: white;
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		text-align: center;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.hobby-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.hobby-icon {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	h3 {
+		color: rgb(var(--accent));
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	p {
+		color: #666;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.hobbies {
+			padding: 4rem 1rem;
+		}
+
+		.hobbies-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style> 

@@ -1,0 +1,109 @@
+---
+const skills = {
+	"Programming Languages": ["Python", "C++", "HTML", "CSS", "TypeScript"],
+	"Technologies & Tools": [
+		"Unix",
+		"Git",
+		"KiCad",
+		"OpenAI API",
+		"FastAPI",
+		"React.js",
+		"Nginx",
+		"Linux (Ubuntu 24.04)",
+		"Tailwind CSS",
+		"Applied Linear Algebra (Numpy, Sympy)",
+		"Microsoft Office",
+		"Google Docs",
+		"Expo React Native"
+	]
+};
+---
+
+<section class="skills" id="skills">
+	<div class="container">
+		<h2>Technical Skills</h2>
+		<div class="skills-grid">
+			{Object.entries(skills).map(([category, items]) => (
+				<div class="skill-category">
+					<h3>{category}</h3>
+					<div class="skill-items">
+						{items.map((skill) => (
+							<div class="skill-item">
+								<span>{skill}</span>
+							</div>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.skills {
+		padding: 6rem 2rem;
+		background: #f8f9fa;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: #333;
+		margin-bottom: 3rem;
+		text-align: center;
+	}
+
+	.skills-grid {
+		display: grid;
+		gap: 3rem;
+	}
+
+	.skill-category h3 {
+		color: rgb(var(--accent));
+		margin-bottom: 1.5rem;
+		font-size: 1.5rem;
+	}
+
+	.skill-items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.skill-item {
+		background: white;
+		padding: 0.8rem 1.5rem;
+		border-radius: 25px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.skill-item:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.skill-item span {
+		color: #444;
+		font-weight: 500;
+	}
+
+	@media (max-width: 768px) {
+		.skills {
+			padding: 4rem 1rem;
+		}
+
+		.skill-items {
+			gap: 0.8rem;
+		}
+
+		.skill-item {
+			padding: 0.6rem 1.2rem;
+			font-size: 0.9rem;
+		}
+	}
+</style> 
