@@ -7,8 +7,6 @@ interface Props {
 
 const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 
-// Get the base URL from environment or default to the repository name
-const baseUrl = import.meta.env.BASE_URL || '/personal-website/';
 ---
 
 <!DOCTYPE html>
@@ -16,13 +14,12 @@ const baseUrl = import.meta.env.BASE_URL || '/personal-website/';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+		<link rel="icon" type="image/svg+xml" href="/personal-website/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-		<base href={baseUrl} />
 	</head>
 	<body>
 		<slot />
