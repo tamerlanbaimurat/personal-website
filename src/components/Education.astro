@@ -1,0 +1,169 @@
+---
+const education = [
+	{
+		school: "Boston University",
+		degree: "Bachelor of Science in Electrical Engineering",
+		minor: "Computer Science",
+		location: "Boston, MA",
+		period: "2024 – 2027",
+		details: [
+			"Relevant Coursework: Biology and Biotechnology, Signals and Controls System, Senior Design for Biomedical Engineering, Statistics for Engineering & Data Science/Machine Learning, Ordinary Differential Equations, Statics and Mechanics of Materials",
+			"Future Coursework: Machine Learning, Deep Learning, Digital Signal Processing, Electromagnetics, Control Systems (indepth), Intro to Electronics, and more",
+			"Guaranteed offer for Master's in ECE after graduation",
+			"GPA: 3.98/4.0"
+		]
+	},
+	{
+		school: "Michigan State University",
+		degree: "Computer Science (Transferred)",
+		location: "East Lansing, MI",
+		period: "2022 – 2024",
+		details: [
+			"Relevant Coursework: Introduction to Programming I & II, Data Structures and Algorithms, Discrete Mathematics, Computer Organization and Assembly Language, Computer Architecture, Probability and Statistics, Linear Algebra, Calculus I & II, Multivariable Calculus, Calculus Based Physics I & II, Executive MBA Lecture Series (Master's level courses), General Chemistry",
+			"Transferred to Boston University for better academic opportunities",
+			"GPA: 4.0/4.0"
+		]
+	},
+	{
+		school: "IQanat High School of Burabay",
+		degree: "High School Diploma",
+		location: "Burabay, Kazakhstan",
+		period: "2021 – 2022",
+		details: [
+			"Graduated with honors (5.0/5.0 GPA)",
+			"Participated in various science and technology competitions",
+			"Obtained Copyright License/Patent for Ergonomic Keyboard"
+		]
+	}
+];
+---
+
+<section class="education" id="education">
+	<div class="container">
+		<h2>Education</h2>
+		<div class="education-grid">
+			{education.map((edu) => (
+				<div class="education-card">
+					<div class="education-header">
+						<h3>{edu.school}</h3>
+						<span class="period">{edu.period}</span>
+					</div>
+					<div class="degree-info">
+						<p class="degree">{edu.degree}</p>
+						{edu.minor && <p class="minor">Minor in {edu.minor}</p>}
+						<p class="location">{edu.location}</p>
+					</div>
+					<ul class="details">
+						{edu.details.map((detail) => (
+							<li>{detail}</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.education {
+		padding: 6rem 2rem;
+		background: #f8f9fa;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: #333;
+		margin-bottom: 3rem;
+		text-align: center;
+	}
+
+	.education-grid {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.education-card {
+		background: white;
+		padding: 2rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.education-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.education-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 1rem;
+	}
+
+	h3 {
+		color: rgb(var(--accent));
+		font-size: 1.3rem;
+		margin: 0;
+	}
+
+	.period {
+		color: #666;
+		font-size: 0.9rem;
+	}
+
+	.degree-info {
+		margin-bottom: 1rem;
+	}
+
+	.degree {
+		color: #333;
+		font-weight: 500;
+		margin: 0 0 0.3rem 0;
+	}
+
+	.minor {
+		color: #666;
+		font-size: 0.95rem;
+		margin: 0 0 0.3rem 0;
+	}
+
+	.location {
+		color: #666;
+		font-size: 0.9rem;
+		margin: 0;
+	}
+
+	.details {
+		list-style-type: disc;
+		padding-left: 1.5rem;
+		color: #444;
+		margin: 0;
+	}
+
+	.details li {
+		margin-bottom: 0.5rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 768px) {
+		.education {
+			padding: 4rem 1rem;
+		}
+
+		.education-header {
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.degree-info {
+			margin-bottom: 0.8rem;
+		}
+	}
+</style> 
