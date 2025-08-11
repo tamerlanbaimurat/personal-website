@@ -1,27 +1,99 @@
 ---
 const skills = {
-	"Programming Languages": ["Python", "C++", "HTML", "CSS", "TypeScript"],
-	"Technologies & Tools": [
-		"Unix",
-		"Git",
-		"KiCad",
-		"OpenAI API",
-		"FastAPI",
+	"Programming Languages": [
+		"Python", 
+		"TypeScript/JavaScript", 
+		"C/C++", 
+		"HTML5", 
+		"CSS3",
+		"SQL",
+		"Java",
+	],
+	"Frontend Development": [
 		"React.js",
-		"Nginx",
-		"Linux (Ubuntu 24.04)",
+		"Remix.js", 
+		"Flutter",
 		"Tailwind CSS",
-		"Applied Linear Algebra (Numpy, Sympy)",
-		"Microsoft Office",
-		"Google Docs",
-		"Expo React Native"
+		"Responsive Design",
+		"React Native/Expo",
+		"Vite",
+		"Server-Side Rendering (SSR)",
+		"Internationalization (i18n)"
+	],
+	"Backend Development": [
+		"FastAPI",
+		"Express.js",
+		"RESTful APIs",
+		"Microservices Architecture",
+		"Asynchronous Programming",
+		"WebSocket Integration",
+		"SMTP Integration",
+		"Authentication & Authorization"
+	],
+	"AI/ML & Data": [
+		"OpenAI API",
+		"LangChain",
+		"Retrieval-Augmented Generation (RAG)",
+		"Large Language Models (LLMs)",
+		"ChatGPT Integration",
+		"NumPy",
+		"Data Processing",
+		"Applied Linear Algebra"
+	],
+	"Cloud & DevOps": [
+		"AWS S3",
+		"Cloudflare CDN",
+		"Firebase",
+		"Cloud Firestore",
+		"Linux (Ubuntu)",
+		"Nginx",
+		"systemd/Gunicorn",
+		"Asset Optimization",
+		"Performance Monitoring"
+	],
+	"Databases & Storage": [
+		"Firebase Firestore",
+		"Cloud Storage",
+		"Database Design",
+		"Data Migration",
+		"Backup Strategies",
+		"Query Optimization"
+	],
+	"Tools & Workflow": [
+		"Git/Version Control",
+		"GitHub",
+		"Unix/Linux CLI",
+		"Bash/Zsh Scripting",
+		"KiCad (PCB Design)",
+		"Load Testing",
+		"Performance Profiling",
+		"Code Review",
+		"Agile Development"
+	],
+	"Leadership & Soft Skills": [
+		"Technical Leadership",
+		"Team Management",
+		"Startup Experience",
+		"Cross-functional Collaboration",
+		"Mentoring & Teaching",
+		"Project Management",
+		"Client Communication",
+		"Problem Solving"
+	],
+	"Security & Compliance": [
+		"HIPAA Compliance",
+		"Data Encryption",
+		"Secure API Design",
+		"Access Control",
+		"Privacy Protection",
+		"Security Best Practices"
 	]
 };
 ---
 
 <section class="skills" id="skills">
 	<div class="container">
-		<h2>Technical Skills</h2>
+		<h2>Technical Skills & Expertise</h2>
 		<div class="skills-grid">
 			{Object.entries(skills).map(([category, items]) => (
 				<div class="skill-category">
@@ -42,54 +114,78 @@ const skills = {
 <style>
 	.skills {
 		padding: 6rem 2rem;
-		background: #f8f9fa;
+		background: rgb(var(--bg-tertiary));
+		transition: background-color 0.3s ease;
 	}
 
 	.container {
-		max-width: 1000px;
+		max-width: 1200px;
 		margin: 0 auto;
 	}
 
 	h2 {
 		font-size: 2.5rem;
-		color: #333;
+		color: rgb(var(--text-primary));
 		margin-bottom: 3rem;
 		text-align: center;
+		transition: color 0.3s ease;
 	}
 
 	.skills-grid {
 		display: grid;
-		gap: 3rem;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 2.5rem;
+	}
+
+	.skill-category {
+		background: rgb(var(--bg-secondary));
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: 0 4px 6px rgba(var(--shadow-color));
+		transition: all 0.3s ease;
+		border: 1px solid rgba(var(--border-color));
+	}
+
+	.skill-category:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 20px rgba(var(--shadow-color));
 	}
 
 	.skill-category h3 {
 		color: rgb(var(--accent));
 		margin-bottom: 1.5rem;
-		font-size: 1.5rem;
+		font-size: 1.3rem;
+		font-weight: 600;
+		border-bottom: 2px solid rgba(var(--accent), 0.2);
+		padding-bottom: 0.5rem;
 	}
 
 	.skill-items {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1rem;
+		gap: 0.8rem;
 	}
 
 	.skill-item {
-		background: white;
-		padding: 0.8rem 1.5rem;
-		border-radius: 25px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		transition: transform 0.2s, box-shadow 0.2s;
+		background: linear-gradient(135deg, rgba(var(--accent), 0.1), rgba(var(--accent-light), 0.1));
+		border: 1px solid rgba(var(--accent), 0.2);
+		padding: 0.6rem 1rem;
+		border-radius: 20px;
+		transition: all 0.2s ease;
+		cursor: default;
 	}
 
 	.skill-item:hover {
+		background: rgba(var(--accent), 0.15);
+		border-color: rgba(var(--accent), 0.4);
 		transform: translateY(-2px);
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 	}
 
 	.skill-item span {
-		color: #444;
+		color: rgb(var(--text-primary));
 		font-weight: 500;
+		font-size: 0.9rem;
+		transition: color 0.3s ease;
 	}
 
 	@media (max-width: 768px) {
@@ -97,13 +193,30 @@ const skills = {
 			padding: 4rem 1rem;
 		}
 
+		.container {
+			max-width: 100%;
+		}
+
+		.skills-grid {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.skill-category {
+			padding: 1.5rem;
+		}
+
+		.skill-category h3 {
+			font-size: 1.2rem;
+		}
+
 		.skill-items {
-			gap: 0.8rem;
+			gap: 0.6rem;
 		}
 
 		.skill-item {
-			padding: 0.6rem 1.2rem;
-			font-size: 0.9rem;
+			padding: 0.5rem 0.8rem;
+			font-size: 0.85rem;
 		}
 	}
 </style> 

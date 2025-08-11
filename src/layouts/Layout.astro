@@ -23,12 +23,110 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 	</body>
 </html>
 
+<script>
+	// Theme switcher functionality with system preference detection
+	function getSystemTheme() {
+		// Check if user's system prefers dark mode
+		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			return 'dark';
+		}
+		return 'light';
+	}
+
+	function initTheme() {
+		// Priority: 1. Saved preference, 2. System preference, 3. Default to light
+		const savedTheme = localStorage.getItem('theme');
+		const theme = savedTheme || getSystemTheme();
+		
+		document.documentElement.setAttribute('data-theme', theme);
+		
+		// If no saved preference, save the detected system preference
+		if (!savedTheme) {
+			localStorage.setItem('theme', theme);
+		}
+	}
+
+	function toggleTheme() {
+		const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+		
+		document.documentElement.setAttribute('data-theme', newTheme);
+		localStorage.setItem('theme', newTheme);
+	}
+
+	// Listen for system theme changes (when user changes OS theme while browsing)
+	function watchSystemTheme() {
+		if (window.matchMedia) {
+			const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+			
+			mediaQuery.addEventListener('change', (e) => {
+				// Only auto-switch if user hasn't manually set a preference
+				const savedTheme = localStorage.getItem('theme');
+				if (!savedTheme) {
+					const systemTheme = e.matches ? 'dark' : 'light';
+					document.documentElement.setAttribute('data-theme', systemTheme);
+				}
+			});
+		}
+	}
+
+	// Initialize theme on page load
+	initTheme();
+	watchSystemTheme();
+
+	// Make toggleTheme globally available
+	(window as any).toggleTheme = toggleTheme;
+
+	// Re-initialize theme on navigation (for SPAs)
+	document.addEventListener('astro:page-load', () => {
+		initTheme();
+		watchSystemTheme();
+	});
+</script>
+
 <style is:global>
 	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
+		/* Light theme colors */
+		--accent: 34, 197, 94;
+		--accent-light: 134, 239, 172;
+		--accent-dark: 21, 128, 61;
 		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+		
+		/* Light theme UI colors */
+		--bg-primary: 246, 246, 246;
+		--bg-secondary: 255, 255, 255;
+		--bg-tertiary: 248, 249, 250;
+		--text-primary: 51, 51, 51;
+		--text-secondary: 102, 102, 102;
+		--text-muted: 156, 163, 175;
+		--border-color: 229, 231, 235;
+		--glass-bg: 255, 255, 255, 0.6;
+		--glass-border: 255, 255, 255, 0.2;
+		--shadow-color: 0, 0, 0, 0.08;
+		--hero-gradient: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+		--hero-overlay: linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 50%, rgba(4, 120, 87, 0.7) 100%);
+	}
+
+	[data-theme="dark"] {
+		/* Dark theme colors (keeping same green accent) */
+		--accent: 34, 197, 94;
+		--accent-light: 134, 239, 172;
+		--accent-dark: 21, 128, 61;
+		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, #1f2937 60%);
+		
+		/* Dark theme UI colors */
+		--bg-primary: 17, 24, 39;
+		--bg-secondary: 31, 41, 55;
+		--bg-tertiary: 55, 65, 81;
+		--text-primary: 243, 244, 246;
+		--text-secondary: 209, 213, 219;
+		--text-muted: 156, 163, 175;
+		--border-color: 75, 85, 99;
+		--glass-bg: 31, 41, 55, 0.6;
+		--glass-border: 75, 85, 99, 0.3;
+		--shadow-color: 0, 0, 0, 0.25;
+		--hero-gradient: linear-gradient(135deg, #065f46 0%, #047857 50%, #064e3b 100%);
+		--hero-overlay: linear-gradient(135deg, rgba(6, 95, 70, 0.9) 0%, rgba(4, 120, 87, 0.9) 50%, rgba(6, 78, 59, 0.8) 100%);
 	}
 	
 	* {
@@ -39,22 +137,20 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 
 	html {
 		font-family: 'Inter', system-ui, sans-serif;
-		background: #f6f6f6;
+		background: rgb(var(--bg-primary));
 		background-size: 224px;
-		scroll-behavior: smooth;
-		scroll-snap-type: y mandatory;
-		height: 100vh;
-		overflow-y: scroll;
+		transition: background-color 0.3s ease;
 	}
 
 	body {
 		min-height: 100vh;
+		color: rgb(var(--text-primary));
+		transition: color 0.3s ease;
 	}
 
 	section {
-		scroll-snap-align: start;
-		height: 100vh;
-		overflow-y: auto;
+		min-height: 100vh;
+		padding: 2rem 0;
 	}
 
 	code {

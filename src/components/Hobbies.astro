@@ -6,9 +6,9 @@ const hobbies = [
 		icon: "🎸"
 	},
 	{
-		title: "Biking",
-		description: "Enjoy exploring new trails and staying active through cycling.",
-		icon: "🚴"
+		title: "Custom Keyboards",
+		description: "Building and customizing mechanical keyboards with different switches and layouts.",
+		icon: "⌨️"
 	},
 	{
 		title: "Music",
@@ -36,9 +36,10 @@ const hobbies = [
 <style>
 	.hobbies {
 		padding: 6rem 2rem;
-		background: #f8f9fa;
+		background: rgb(var(--bg-tertiary));
 		display: flex;
 		align-items: center;
+		transition: background-color 0.3s ease;
 	}
 
 	.container {
@@ -49,9 +50,10 @@ const hobbies = [
 
 	h2 {
 		font-size: 2.5rem;
-		color: #333;
+		color: rgb(var(--text-primary));
 		margin-bottom: 3rem;
 		text-align: center;
+		transition: color 0.3s ease;
 	}
 
 	.hobbies-grid {
@@ -61,17 +63,18 @@ const hobbies = [
 	}
 
 	.hobby-card {
-		background: white;
+		background: rgb(var(--bg-secondary));
 		padding: 2rem;
 		border-radius: 12px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 2px 4px rgba(var(--shadow-color));
 		text-align: center;
-		transition: transform 0.2s, box-shadow 0.2s;
+		transition: all 0.3s ease;
+		border: 1px solid rgba(var(--border-color));
 	}
 
 	.hobby-card:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 8px rgba(var(--shadow-color));
 	}
 
 	.hobby-icon {
@@ -86,8 +89,9 @@ const hobbies = [
 	}
 
 	p {
-		color: #666;
+		color: rgb(var(--text-secondary));
 		line-height: 1.6;
+		transition: color 0.3s ease;
 	}
 
 	@media (max-width: 768px) {

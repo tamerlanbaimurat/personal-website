@@ -1,4 +1,19 @@
 <section class="hero" id="about">
+	<div class="clouds-container">
+		<div class="cloud cloud-1"></div>
+		<div class="cloud cloud-2"></div>
+		<div class="cloud cloud-3"></div>
+		<div class="cloud cloud-4"></div>
+		<div class="cloud cloud-5"></div>
+		<div class="cloud cloud-6"></div>
+		<div class="cloud cloud-7"></div>
+		<div class="cloud cloud-8"></div>
+		<div class="cloud cloud-9"></div>
+		<div class="cloud cloud-10"></div>
+		<div class="cloud cloud-11"></div>
+		<div class="cloud cloud-12"></div>
+	</div>
+	<div class="gradient-overlay"></div>
 	<div class="container">
 		<h1>Tamerlan Baimurat</h1>
 		<p class="subtitle">Software Developer & Tech Enthusiast</p>
@@ -21,37 +36,394 @@
 		align-items: center;
 		justify-content: center;
 		padding: 2rem;
-		background: linear-gradient(to bottom right, #ffffff, #f6f6f6);
+		position: relative;
+		overflow: hidden;
+		background: var(--hero-gradient);
+		transition: background 0.3s ease;
+	}
+
+	.clouds-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		z-index: 1;
+	}
+
+	.cloud {
+		position: absolute;
+		background: rgba(255, 255, 255, 0.12);
+		border-radius: 100px;
+		opacity: 0.8;
+		animation: float 20s infinite linear;
+		filter: blur(1px);
+		transition: background-color 0.3s ease;
+	}
+
+	/* Dark mode clouds */
+	[data-theme="dark"] .cloud {
+		background: rgba(255, 255, 255, 0.08);
+		opacity: 0.6;
+	}
+
+	.cloud::before,
+	.cloud::after {
+		content: '';
+		position: absolute;
+		background: rgba(255, 255, 255, 0.12);
+		border-radius: 100px;
+		transition: background-color 0.3s ease;
+	}
+
+	[data-theme="dark"] .cloud::before,
+	[data-theme="dark"] .cloud::after {
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	/* Original clouds with slight modifications */
+	.cloud-1 {
+		width: 100px;
+		height: 40px;
+		top: 20%;
+		left: -10%;
+		animation-duration: 25s;
+		filter: blur(2px);
+	}
+
+	.cloud-1::before {
+		width: 50px;
+		height: 50px;
+		top: -25px;
+		left: 10px;
+	}
+
+	.cloud-1::after {
+		width: 60px;
+		height: 40px;
+		top: -15px;
+		right: 10px;
+	}
+
+	.cloud-2 {
+		width: 80px;
+		height: 30px;
+		top: 60%;
+		left: -5%;
+		animation-duration: 30s;
+		filter: blur(3px);
+	}
+
+	.cloud-2::before {
+		width: 40px;
+		height: 40px;
+		top: -20px;
+		left: 15px;
+	}
+
+	.cloud-2::after {
+		width: 50px;
+		height: 30px;
+		top: -10px;
+		right: 15px;
+	}
+
+	.cloud-3 {
+		width: 120px;
+		height: 50px;
+		top: 10%;
+		left: -8%;
+		animation-duration: 35s;
+		filter: blur(4px);
+	}
+
+	.cloud-3::before {
+		width: 60px;
+		height: 60px;
+		top: -30px;
+		left: 20px;
+	}
+
+	.cloud-3::after {
+		width: 70px;
+		height: 50px;
+		top: -20px;
+		right: 20px;
+	}
+
+	.cloud-4 {
+		width: 90px;
+		height: 35px;
+		top: 80%;
+		left: -6%;
+		animation-duration: 28s;
+		filter: blur(2.5px);
+	}
+
+	.cloud-4::before {
+		width: 45px;
+		height: 45px;
+		top: -22px;
+		left: 12px;
+	}
+
+	.cloud-4::after {
+		width: 55px;
+		height: 35px;
+		top: -12px;
+		right: 12px;
+	}
+
+	.cloud-5 {
+		width: 110px;
+		height: 45px;
+		top: 40%;
+		left: -7%;
+		animation-duration: 32s;
+		filter: blur(3.5px);
+	}
+
+	.cloud-5::before {
+		width: 55px;
+		height: 55px;
+		top: -27px;
+		left: 18px;
+	}
+
+	.cloud-5::after {
+		width: 65px;
+		height: 45px;
+		top: -17px;
+		right: 18px;
+	}
+
+	/* New additional clouds */
+	.cloud-6 {
+		width: 95px;
+		height: 38px;
+		top: 30%;
+		left: -9%;
+		animation-duration: 27s;
+		filter: blur(2.8px);
+		opacity: 0.6;
+	}
+
+	.cloud-6::before {
+		width: 48px;
+		height: 48px;
+		top: -24px;
+		left: 14px;
+	}
+
+	.cloud-6::after {
+		width: 58px;
+		height: 38px;
+		top: -14px;
+		right: 14px;
+	}
+
+	.cloud-7 {
+		width: 75px;
+		height: 28px;
+		top: 70%;
+		left: -4%;
+		animation-duration: 33s;
+		filter: blur(3.2px);
+		opacity: 0.7;
+	}
+
+	.cloud-7::before {
+		width: 38px;
+		height: 38px;
+		top: -19px;
+		left: 12px;
+	}
+
+	.cloud-7::after {
+		width: 45px;
+		height: 28px;
+		top: -9px;
+		right: 12px;
+	}
+
+	.cloud-8 {
+		width: 105px;
+		height: 42px;
+		top: 15%;
+		left: -6.5%;
+		animation-duration: 29s;
+		filter: blur(2.2px);
+		opacity: 0.65;
+	}
+
+	.cloud-8::before {
+		width: 52px;
+		height: 52px;
+		top: -26px;
+		left: 16px;
+	}
+
+	.cloud-8::after {
+		width: 62px;
+		height: 42px;
+		top: -16px;
+		right: 16px;
+	}
+
+	.cloud-9 {
+		width: 85px;
+		height: 32px;
+		top: 50%;
+		left: -5.5%;
+		animation-duration: 31s;
+		filter: blur(3.8px);
+		opacity: 0.55;
+	}
+
+	.cloud-9::before {
+		width: 42px;
+		height: 42px;
+		top: -21px;
+		left: 13px;
+	}
+
+	.cloud-9::after {
+		width: 52px;
+		height: 32px;
+		top: -11px;
+		right: 13px;
+	}
+
+	.cloud-10 {
+		width: 125px;
+		height: 48px;
+		top: 5%;
+		left: -8.5%;
+		animation-duration: 26s;
+		filter: blur(4.2px);
+		opacity: 0.5;
+	}
+
+	.cloud-10::before {
+		width: 62px;
+		height: 62px;
+		top: -31px;
+		left: 22px;
+	}
+
+	.cloud-10::after {
+		width: 72px;
+		height: 48px;
+		top: -21px;
+		right: 22px;
+	}
+
+	.cloud-11 {
+		width: 88px;
+		height: 34px;
+		top: 85%;
+		left: -4.5%;
+		animation-duration: 34s;
+		filter: blur(2.6px);
+		opacity: 0.6;
+	}
+
+	.cloud-11::before {
+		width: 44px;
+		height: 44px;
+		top: -22px;
+		left: 11px;
+	}
+
+	.cloud-11::after {
+		width: 54px;
+		height: 34px;
+		top: -12px;
+		right: 11px;
+	}
+
+	.cloud-12 {
+		width: 98px;
+		height: 39px;
+		top: 25%;
+		left: -7.5%;
+		animation-duration: 36s;
+		filter: blur(3.6px);
+		opacity: 0.58;
+	}
+
+	.cloud-12::before {
+		width: 49px;
+		height: 49px;
+		top: -24px;
+		left: 15px;
+	}
+
+	.cloud-12::after {
+		width: 59px;
+		height: 39px;
+		top: -14px;
+		right: 15px;
+	}
+
+	@keyframes float {
+		0% {
+			transform: translateX(-100px);
+		}
+		100% {
+			transform: translateX(calc(100vw + 100px));
+		}
+	}
+
+	.gradient-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: var(--hero-overlay);
+		z-index: 2;
+		transition: background 0.3s ease;
 	}
 
 	.container {
 		max-width: 800px;
 		text-align: center;
+		position: relative;
+		z-index: 3;
 	}
 
 	h1 {
 		font-size: 3.5rem;
 		margin-bottom: 1rem;
-		color: #333;
+		color: white;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		animation: fadeInUp 1s ease-out;
 	}
 
 	.subtitle {
 		font-size: 1.5rem;
-		color: rgb(var(--accent));
+		color: rgba(255, 255, 255, 0.9);
 		margin-bottom: 2rem;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		animation: fadeInUp 1s ease-out 0.2s both;
 	}
 
 	.description {
 		font-size: 1.2rem;
 		line-height: 1.6;
-		color: #666;
+		color: rgba(255, 255, 255, 0.85);
 		margin-bottom: 2rem;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		animation: fadeInUp 1s ease-out 0.4s both;
 	}
 
 	.cta-buttons {
 		display: flex;
 		gap: 1rem;
 		justify-content: center;
+		animation: fadeInUp 1s ease-out 0.6s both;
 	}
 
 	.primary-button, .secondary-button {
@@ -59,22 +431,38 @@
 		border-radius: 5px;
 		text-decoration: none;
 		font-weight: 500;
-		transition: transform 0.2s;
+		transition: all 0.3s ease;
+		backdrop-filter: blur(10px);
+		border: 2px solid transparent;
 	}
 
 	.primary-button {
-		background: rgb(var(--accent));
+		background: rgba(255, 255, 255, 0.2);
 		color: white;
+		border-color: rgba(255, 255, 255, 0.3);
 	}
 
 	.secondary-button {
-		background: transparent;
-		color: rgb(var(--accent));
-		border: 2px solid rgb(var(--accent));
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		border-color: rgba(255, 255, 255, 0.4);
 	}
 
 	.primary-button:hover, .secondary-button:hover {
 		transform: translateY(-2px);
+		background: rgba(255, 255, 255, 0.3);
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -92,6 +480,14 @@
 
 		.cta-buttons {
 			flex-direction: column;
+		}
+
+		.cloud {
+			filter: blur(2px);
+		}
+
+		.cloud-1, .cloud-2, .cloud-3, .cloud-4, .cloud-5, .cloud-6, .cloud-7, .cloud-8, .cloud-9, .cloud-10, .cloud-11, .cloud-12 {
+			transform: scale(0.7);
 		}
 	}
 </style> 
