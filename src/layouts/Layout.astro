@@ -11,7 +11,7 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/personal-website/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,9 +24,7 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 </html>
 
 <script>
-	// Theme switcher functionality with system preference detection
 	function getSystemTheme() {
-		// Check if user's system prefers dark mode
 		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 			return 'dark';
 		}
@@ -34,13 +32,11 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 	}
 
 	function initTheme() {
-		// Priority: 1. Saved preference, 2. System preference, 3. Default to light
 		const savedTheme = localStorage.getItem('theme');
 		const theme = savedTheme || getSystemTheme();
 		
 		document.documentElement.setAttribute('data-theme', theme);
 		
-		// If no saved preference, save the detected system preference
 		if (!savedTheme) {
 			localStorage.setItem('theme', theme);
 		}
@@ -54,13 +50,11 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 		localStorage.setItem('theme', newTheme);
 	}
 
-	// Listen for system theme changes (when user changes OS theme while browsing)
 	function watchSystemTheme() {
 		if (window.matchMedia) {
 			const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 			
 			mediaQuery.addEventListener('change', (e) => {
-				// Only auto-switch if user hasn't manually set a preference
 				const savedTheme = localStorage.getItem('theme');
 				if (!savedTheme) {
 					const systemTheme = e.matches ? 'dark' : 'light';
@@ -70,14 +64,11 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 		}
 	}
 
-	// Initialize theme on page load
 	initTheme();
 	watchSystemTheme();
 
-	// Make toggleTheme globally available
 	(window as any).toggleTheme = toggleTheme;
 
-	// Re-initialize theme on navigation (for SPAs)
 	document.addEventListener('astro:page-load', () => {
 		initTheme();
 		watchSystemTheme();
@@ -108,7 +99,7 @@ const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
 	}
 
 	[data-theme="dark"] {
-		/* Dark theme colors (keeping same green accent) */
+		/* Dark theme colors */
 		--accent: 34, 197, 94;
 		--accent-light: 134, 239, 172;
 		--accent-dark: 21, 128, 61;
