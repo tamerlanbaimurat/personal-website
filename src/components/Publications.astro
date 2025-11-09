@@ -1,0 +1,193 @@
+---
+const publications = [
+	{
+		title: "Как Тамерлан в 16 лет изобрел супер-клавиатуры и почему сменил IT на биоинженерию в Бостонском университете",
+		outlet: "Limon Media",
+		date: "November 2024",
+		description: "In-depth interview covering my journey from inventing ergonomic keyboards in 11th grade to studying Electrical Engineering at Boston University. Discussed transitioning from Computer Science to Biomedical Engineering, working as a Software Engineer at BU's Engineering department, and the path from Kazakhstan to top US universities through transfer opportunities.",
+		link: "https://limon.kg/ru/news:84997",
+		type: "Feature Interview"
+	}
+];
+---
+
+<section class="publications" id="publications">
+	<div class="container">
+		<h2>Publications & Press</h2>
+		<div class="publications-grid">
+			{publications.map((pub) => (
+				<div class="publication-card">
+					<div class="publication-header">
+						<div class="publication-type">{pub.type}</div>
+						<span class="date">{pub.date}</span>
+					</div>
+					<h3>{pub.title}</h3>
+					<div class="outlet">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+							<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+						</svg>
+						{pub.outlet}
+					</div>
+					<p class="description">{pub.description}</p>
+					<a href={pub.link} class="publication-link" target="_blank" rel="noopener noreferrer">
+						Read Article
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+							<polyline points="15 3 21 3 21 9"></polyline>
+							<line x1="10" y1="14" x2="21" y2="3"></line>
+						</svg>
+					</a>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.publications {
+		padding: 6rem 2rem;
+		background: rgb(var(--bg-primary));
+		transition: background-color 0.3s ease;
+	}
+
+	.container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		color: rgb(var(--text-primary));
+		margin-bottom: 3rem;
+		text-align: center;
+		transition: color 0.3s ease;
+	}
+
+	.publications-grid {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.publication-card {
+		background: rgb(var(--bg-secondary));
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: 0 4px 6px rgba(var(--shadow-color));
+		transition: all 0.3s ease;
+		border: 1px solid rgba(var(--border-color));
+		position: relative;
+		overflow: hidden;
+	}
+
+	.publication-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 4px;
+		height: 100%;
+		background: linear-gradient(180deg, rgb(var(--accent)), rgb(var(--accent-light)));
+	}
+
+	.publication-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 20px rgba(var(--shadow-color));
+	}
+
+	.publication-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+
+	.publication-type {
+		background: rgba(var(--accent), 0.1);
+		color: rgb(var(--accent));
+		padding: 0.4rem 0.8rem;
+		border-radius: 15px;
+		font-size: 0.85rem;
+		font-weight: 500;
+	}
+
+	.date {
+		color: rgb(var(--text-secondary));
+		font-size: 0.9rem;
+		transition: color 0.3s ease;
+	}
+
+	h3 {
+		color: rgb(var(--text-primary));
+		font-size: 1.4rem;
+		line-height: 1.4;
+		margin-bottom: 1rem;
+		transition: color 0.3s ease;
+	}
+
+	.outlet {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: rgb(var(--accent));
+		font-weight: 600;
+		font-size: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.outlet svg {
+		flex-shrink: 0;
+	}
+
+	.description {
+		color: rgb(var(--text-secondary));
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+		transition: color 0.3s ease;
+	}
+
+	.publication-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: rgb(var(--accent));
+		text-decoration: none;
+		font-weight: 500;
+		transition: gap 0.2s;
+		padding: 0.6rem 1.2rem;
+		border: 2px solid rgba(var(--accent), 0.3);
+		border-radius: 6px;
+		background: rgba(var(--accent), 0.05);
+	}
+
+	.publication-link:hover {
+		gap: 0.8rem;
+		background: rgba(var(--accent), 0.1);
+		border-color: rgba(var(--accent), 0.5);
+	}
+
+	@media (max-width: 768px) {
+		.publications {
+			padding: 4rem 1rem;
+		}
+
+		h2 {
+			font-size: 2rem;
+		}
+
+		h3 {
+			font-size: 1.2rem;
+		}
+
+		.publication-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+
+		.publication-card {
+			padding: 1.5rem;
+		}
+	}
+</style>
+
