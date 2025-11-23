@@ -1,6 +1,20 @@
 ---
 const projects = [
 	{
+		"title": "Greenlight RAG",
+		"period": "November 2025 – Present",
+		"description": "Built a fully local Retrieval-Augmented Generation search platform that ingests PDF/DOCX/TXT/Markdown files, chunks them, and generates Qwen 3 SentenceTransformer embeddings before storing them in Qdrant for lightning-fast semantic similarity queries exposed through FastAPI APIs, a Rich-powered CLI, and a polished Vue 3 web UI with drag‑and‑drop uploads, live status indicators, and responsive design; the stack ships as a Docker Compose orchestration, includes automated setup scripts, tests, and documentation, and is tuned for sub‑100 ms searches, making it a production-ready showcase of end-to-end vector search engineering.",
+		"technologies": ["Python", "Retrieval-Augmented Generation (RAG)", "Qwen 3 SentenceTransformer", "Qdrant", "FastAPI", "Vue 3", "Docker", "CLI"],
+		"link": "https://github.com/tamerlanbaimurat/greenlight-rag"
+	},
+	{
+		"title": "Weather Bot For Telegram",
+		"period": "November 2025 – Present",
+		"description": "Built Telegram Weather Outfit Bot, a work-in-progress assistant that mixes real-time weather data with a Retrieval-Augmented Generation pipeline to recommend outfits from a custom wardrobe. It ingests Open-Meteo weather feeds, filters a semantic embedding store of clothing items, and prompts OpenRouter LLMs for natural-language suggestions. The bot runs locally or in Docker with Prometheus/Grafana metrics, and ships a Fly.io config for one-command cloud deployment. Key tech: Python 3.10, python-telegram-bot, sentence-transformers, OpenRouter API, Docker Compose, Prometheus, Grafana.",
+		"technologies": ["Python", "Telegram API", "Retrieval-Augmented Generation", "OpenRouter API", "Docker", "Prometheus", "Grafana"],
+		"link": "https://github.com/tamerlanbaimurat/telegram-weather-bot"
+	},
+	{
 		title: "Telegram Bot with OpenAI API",
 		period: "January 2024 – April 2024",
 		description: "Built a feature-rich Telegram Bot using Python and OpenAI API, integrating real-time weather updates, AI-driven text/image processing, and ChatGPT-like interactions.",
