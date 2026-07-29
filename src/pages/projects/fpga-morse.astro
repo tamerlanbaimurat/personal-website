@@ -1,0 +1,148 @@
+---
+import FlowDiagram from '../../components/FlowDiagram.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const rtl = [
+	{ label: '8-bit ASCII input', note: 'Upper/lower/numeric' },
+	{ label: 'Input conditioning', note: 'Sync + debounce + edge' },
+	{ label: 'ASCII lookup', note: 'Morse bits + length' },
+	{ label: 'Morse FSM', note: 'Dot/dash/gap sequencing' },
+	{ label: 'Tick enables', note: 'One 100 MHz domain' },
+	{ label: 'LED + 7-segment output', note: 'Physical display' },
+]
+---
+
+<Layout title="FPGA ASCII-to-Morse Encoder — Tamerlan Baimurat" description="RTL case study for an Artix-7 FPGA ASCII-to-Morse encoder using Verilog, a finite-state machine, clock enables, input synchronization, and physical board validation.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Case study · FPGA + digital design</p>
+				<h1>ASCII in. Morse out. One clock domain.</h1>
+				<p class="lede">A modular Verilog design that accepts standard 8-bit ASCII and emits a variable-length Morse sequence for 62 uppercase, lowercase, and numeric inputs.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Device</span><strong>Artix-7 FPGA</strong></div>
+				<div class="page-fact"><span>Inputs</span><strong>62 characters</strong></div>
+				<div class="page-fact"><span>Clock</span><strong>100 MHz</strong></div>
+				<div class="page-fact"><span>Toolchain</span><strong>Vivado</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Problem</p>
+						<h2>Encode human-readable input as timed hardware behavior.</h2>
+						<p>The system must accept a standard ASCII character, look up its Morse representation and length, and emit a correctly timed dot/dash sequence while keeping the board interface stable and observable.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">RTL architecture</p>
+						<h2>Small modules with explicit timing responsibilities.</h2>
+						<FlowDiagram steps={rtl} label="Simplified RTL block diagram." accent="amber" />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">Modules</p>
+						<h2>Decode, display, condition, and sequence.</h2>
+						<ul>
+							<li><strong>ASCII lookup/decoder:</strong> maps each supported input to Morse symbols and a valid sequence length.</li>
+							<li><strong>ASCII-to-seven-segment decoder:</strong> makes the selected character visible on the board.</li>
+							<li><strong>Display multiplexer:</strong> refreshes multi-digit seven-segment output.</li>
+							<li><strong>Button path:</strong> synchronizes the asynchronous input, debounces it, and produces a clean edge event.</li>
+							<li><strong>Clock/tick enable generator:</strong> produces timing events without creating a second logic clock.</li>
+							<li><strong>Morse finite-state machine:</strong> sequences dots, dashes, and gaps from lookup output.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Important decision</p>
+						<h2>Use clock enables instead of a generated clock.</h2>
+						<p>The entire design remains in the board’s <strong>100 MHz clock domain</strong>. Slower behavior is driven by tick/clock-enable pulses. That avoids introducing a second clock network through ordinary fabric, simplifies timing analysis, and keeps crossings out of the core control path.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Verification</p>
+						<h2>Check logic before trusting the board.</h2>
+						<p>The testbench exercises supported inputs and observes the FSM sequence, output timing, and termination behavior. Physical testing then checks the integrated path from board controls through seven-segment feedback and Morse output.</p>
+						<div class="evidence-placeholder">
+							<div>
+								<strong>Waveform + board demonstration</strong>
+								<p>A sanitized testbench screenshot and short board demo will be added after confirming that the public repository matches the final submitted design.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Vivado flow</p>
+						<h2>From behavioral model to physical device.</h2>
+						<FlowDiagram steps={[
+							{ label: 'Simulation', note: 'Behavior + testbench' },
+							{ label: 'Synthesis', note: 'RTL → netlist' },
+							{ label: 'Implementation', note: 'Place + route' },
+							{ label: 'Bitstream', note: 'Device configuration' },
+							{ label: 'Programming', note: 'Load board' },
+							{ label: 'Physical test', note: 'Inputs + outputs' },
+						]} label="FPGA implementation and validation flow." accent="amber" />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">07</span>
+					<div>
+						<p class="eyebrow">Results</p>
+						<h2>Modular RTL with physical validation.</h2>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>62</strong><span>Uppercase, lowercase, and numeric inputs</span></div>
+							<div class="stat-card"><strong>1</strong><span>Clock domain</span></div>
+							<div class="stat-card"><strong>8-bit</strong><span>Standard ASCII input</span></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">08</span>
+					<div>
+						<p class="eyebrow">Limitations + next steps</p>
+						<h2>Publish the final artifact, not an approximate one.</h2>
+						<p>The case study intentionally withholds a repository link until the public repository is confirmed against the final design. Next steps include a verified code release, annotated waveform, board demo, timing summary, and a concise explanation of edge cases.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Project snapshot</p>
+					<h2>Digital hardware</h2>
+					<dl>
+						<div><dt>Language</dt><dd>Verilog</dd></div>
+						<div><dt>Architecture</dt><dd>Lookup + FSM + display</dd></div>
+						<div><dt>Input handling</dt><dd>Sync, debounce, edge detect</dd></div>
+						<div><dt>Validation</dt><dd>Testbench + board</dd></div>
+						<div><dt>Repository</dt><dd>Verification pending</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

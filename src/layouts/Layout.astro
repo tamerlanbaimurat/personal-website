@@ -1,151 +1,64 @@
 ---
+import SiteFooter from '../components/SiteFooter.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import '../styles/global.css'
+
 interface Props {
-	title?: string;
+	title?: string
+	description?: string
 }
 
-const { title = "Tamerlan Baimurat - Personal Website" } = Astro.props;
+const {
+	title = 'Tamerlan Baimurat — Trustworthy AI, speech systems, and production engineering',
+	description = 'Electrical engineer building trustworthy AI, speech systems, high-performance software, and digital hardware.',
+} = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
+const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin)
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#0d1914" />
+		<link rel="canonical" href={canonical} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 		<title>{title}</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={socialImage} />
+		<meta property="og:image:alt" content="Tamerlan Baimurat — Building AI and systems that hold up." />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content={socialImage} />
+		<script is:inline>
+			(() => {
+				const saved = localStorage.getItem('theme')
+				const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+				document.documentElement.dataset.theme = saved || preferred
+			})()
+		</script>
 	</head>
 	<body>
-		<slot />
+		<a class="skip-link" href="#main-content">Skip to content</a>
+		<SiteHeader />
+		<main id="main-content">
+			<slot />
+		</main>
+		<SiteFooter />
+		<script>
+			document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+				const current = document.documentElement.dataset.theme
+				const next = current === 'dark' ? 'light' : 'dark'
+				document.documentElement.dataset.theme = next
+				localStorage.setItem('theme', next)
+			})
+		</script>
 	</body>
 </html>
-
-<script>
-	function getSystemTheme() {
-		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			return 'dark';
-		}
-		return 'light';
-	}
-
-	function initTheme() {
-		const savedTheme = localStorage.getItem('theme');
-		const theme = savedTheme || getSystemTheme();
-		
-		document.documentElement.setAttribute('data-theme', theme);
-		
-		if (!savedTheme) {
-			localStorage.setItem('theme', theme);
-		}
-	}
-
-	function toggleTheme() {
-		const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-		
-		document.documentElement.setAttribute('data-theme', newTheme);
-		localStorage.setItem('theme', newTheme);
-	}
-
-	function watchSystemTheme() {
-		if (window.matchMedia) {
-			const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-			
-			mediaQuery.addEventListener('change', (e) => {
-				const savedTheme = localStorage.getItem('theme');
-				if (!savedTheme) {
-					const systemTheme = e.matches ? 'dark' : 'light';
-					document.documentElement.setAttribute('data-theme', systemTheme);
-				}
-			});
-		}
-	}
-
-	initTheme();
-	watchSystemTheme();
-
-	(window as any).toggleTheme = toggleTheme;
-
-	document.addEventListener('astro:page-load', () => {
-		initTheme();
-		watchSystemTheme();
-	});
-</script>
-
-<style is:global>
-	:root {
-		/* Light theme colors */
-		--accent: 34, 197, 94;
-		--accent-light: 134, 239, 172;
-		--accent-dark: 21, 128, 61;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
-		
-		/* Light theme UI colors */
-		--bg-primary: 246, 246, 246;
-		--bg-secondary: 255, 255, 255;
-		--bg-tertiary: 248, 249, 250;
-		--text-primary: 51, 51, 51;
-		--text-secondary: 102, 102, 102;
-		--text-muted: 156, 163, 175;
-		--border-color: 229, 231, 235;
-		--glass-bg: 255, 255, 255, 0.6;
-		--glass-border: 255, 255, 255, 0.2;
-		--shadow-color: 0, 0, 0, 0.08;
-		--hero-gradient: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-		--hero-overlay: linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 50%, rgba(4, 120, 87, 0.7) 100%);
-	}
-
-	[data-theme="dark"] {
-		/* Dark theme colors */
-		--accent: 34, 197, 94;
-		--accent-light: 134, 239, 172;
-		--accent-dark: 21, 128, 61;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, #1f2937 60%);
-		
-		/* Dark theme UI colors */
-		--bg-primary: 17, 24, 39;
-		--bg-secondary: 31, 41, 55;
-		--bg-tertiary: 55, 65, 81;
-		--text-primary: 243, 244, 246;
-		--text-secondary: 209, 213, 219;
-		--text-muted: 156, 163, 175;
-		--border-color: 75, 85, 99;
-		--glass-bg: 31, 41, 55, 0.6;
-		--glass-border: 75, 85, 99, 0.3;
-		--shadow-color: 0, 0, 0, 0.25;
-		--hero-gradient: linear-gradient(135deg, #065f46 0%, #047857 50%, #064e3b 100%);
-		--hero-overlay: linear-gradient(135deg, rgba(6, 95, 70, 0.9) 0%, rgba(4, 120, 87, 0.9) 50%, rgba(6, 78, 59, 0.8) 100%);
-	}
-	
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-	html {
-		font-family: 'Inter', system-ui, sans-serif;
-		background: rgb(var(--bg-primary));
-		background-size: 224px;
-		transition: background-color 0.3s ease;
-	}
-
-	body {
-		min-height: 100vh;
-		color: rgb(var(--text-primary));
-		transition: color 0.3s ease;
-	}
-
-	section {
-		min-height: 100vh;
-		padding: 2rem 0;
-	}
-
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>

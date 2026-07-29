@@ -1,0 +1,138 @@
+---
+import FlowDiagram from '../../components/FlowDiagram.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const pipeline = [
+	{ label: 'PDF / DOCX / TXT / MD', note: 'Local documents' },
+	{ label: 'Parse + chunk', note: 'Text preparation' },
+	{ label: 'Qwen embeddings', note: 'SentenceTransformer' },
+	{ label: 'Qdrant index', note: 'Vector storage' },
+	{ label: 'Similarity retrieval', note: 'Ranked chunks' },
+	{ label: 'CLI / API / Vue', note: 'Three interfaces' },
+]
+---
+
+<Layout title="Greenlight RAG — Tamerlan Baimurat" description="Case study for a local document-search platform using Qwen embeddings, Qdrant, FastAPI, Rich CLI, Vue 3, tests, and Docker Compose.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Case study · RAG + systems</p>
+				<h1>Local document search, end to end.</h1>
+				<p class="lede">Greenlight turns local documents into searchable embeddings and exposes retrieval through a Rich CLI, FastAPI service, and Vue interface.</p>
+				<div class="page-actions">
+					<a class="button button-primary" href="https://github.com/tamerlanbaimurat/greenlight-rag" target="_blank" rel="noreferrer">View repository ↗</a>
+				</div>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Status</span><strong>Ongoing</strong></div>
+				<div class="page-fact"><span>Deployment</span><strong>Docker Compose</strong></div>
+				<div class="page-fact"><span>Interfaces</span><strong>CLI + API + web</strong></div>
+				<div class="page-fact"><span>Storage</span><strong>Qdrant</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Problem</p>
+						<h2>Search private working documents without sending them to a hosted index.</h2>
+						<p>Greenlight is designed for developers and researchers who want a local-first retrieval stack they can inspect, test, and run through more than one interface.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">Pipeline</p>
+						<h2>One ingestion path, three ways to use it.</h2>
+						<FlowDiagram steps={pipeline} label="Greenlight document-ingestion and retrieval pipeline." />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">Implementation</p>
+						<h2>Qwen embeddings with Qdrant retrieval.</h2>
+						<ul>
+							<li>Ingests PDF, DOCX, TXT, and Markdown files.</li>
+							<li>Chunks extracted text before embedding with a Qwen 3 SentenceTransformer model.</li>
+							<li>Stores and retrieves vectors through Qdrant.</li>
+							<li>Exposes workflows through a Rich-powered CLI, FastAPI endpoints, and Vue 3 UI.</li>
+							<li>Ships with tests, documentation, automated setup, and Docker Compose orchestration.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Engineering decisions</p>
+						<h2>Keep the retrieval core interface-agnostic.</h2>
+						<p>The CLI, API, and browser interface sit on the same core pipeline. That makes it easier to test ingestion and retrieval without coupling correctness to one presentation layer.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Latency methodology</p>
+						<h2>A “sub-100 ms” number needs a boundary.</h2>
+						<p>Development runs have shown sub-100 ms semantic-search performance, but a responsible public benchmark must state corpus size, chunk count, embedding/index configuration, hardware, warm-up behavior, measurement boundary, and number of runs. Until that table is published, the number is treated as an engineering target rather than a universal claim.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Demonstration</p>
+						<h2>Repository available; UI walkthrough next.</h2>
+						<div class="evidence-placeholder">
+							<div>
+								<strong>Interface screenshot + retrieval trace</strong>
+								<p>A short demonstration will show document ingestion, index status, search results, and the timing boundary used for a reproducible benchmark.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">07</span>
+					<div>
+						<p class="eyebrow">Limitations + next steps</p>
+						<h2>Retrieval quality needs an explicit evaluation set.</h2>
+						<p>Latency alone does not establish usefulness. Next steps include a labeled query set, retrieval metrics, corpus-scale experiments, chunking comparisons, and a documented hardware/runtime environment.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">08</span>
+					<div>
+						<p class="eyebrow">Lesson</p>
+						<h2>Operational completeness makes a prototype credible.</h2>
+						<p>Tests, setup, documentation, containers, and multiple interfaces turn an embedding experiment into a system someone else can actually evaluate.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Project snapshot</p>
+					<h2>Local RAG</h2>
+					<dl>
+						<div><dt>Embedding</dt><dd>Qwen 3 SentenceTransformer</dd></div>
+						<div><dt>Vector database</dt><dd>Qdrant</dd></div>
+						<div><dt>API</dt><dd>FastAPI</dd></div>
+						<div><dt>UI</dt><dd>Vue 3 + Rich CLI</dd></div>
+						<div><dt>Runtime</dt><dd>Docker Compose</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

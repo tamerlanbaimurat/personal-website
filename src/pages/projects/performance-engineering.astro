@@ -1,0 +1,150 @@
+---
+import FlowDiagram from '../../components/FlowDiagram.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const architecture = [
+	{ label: 'React + Redux UI', note: 'Operator workflow' },
+	{ label: 'FastAPI services', note: 'Application boundary' },
+	{ label: 'Cache layer', note: '6–7 ms responses' },
+	{ label: 'TimescaleDB', note: 'Time-series queries' },
+	{ label: 'Docker + Actions', note: 'Build and release' },
+	{ label: 'AWS EC2', note: 'Production runtime' },
+]
+---
+
+<Layout title="Production Performance Engineering — Tamerlan Baimurat" description="Sanitized case study about improving database, cache, frontend, and deployment performance in a production automation platform.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Case study · production systems</p>
+				<h1>Faster from database to deployment.</h1>
+				<p class="lede">A sanitized case study from my Boston University software engineering role, covering query optimization, caching, frontend simplification, and CI/CD.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Role</span><strong>Software Engineer</strong></div>
+				<div class="page-fact"><span>Dates</span><strong>Aug. 2025 - May 2026</strong></div>
+				<div class="page-fact"><span>Query improvement</span><strong>80%</strong></div>
+				<div class="page-fact"><span>Deployment improvement</span><strong>70%</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Context</p>
+						<h2>A production automation platform had accumulated friction across layers.</h2>
+						<p>The work involved a live system used by internal stakeholders. The public explanation stays at the architectural level and excludes proprietary data, service names, operational details, and confidential workflows.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">Architecture</p>
+						<h2>The bottleneck was not in just one place.</h2>
+						<FlowDiagram steps={architecture} label="Sanitized production architecture." />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">My ownership</p>
+						<h2>Independent development with close stakeholder feedback.</h2>
+						<p>I architected Python/FastAPI microservices and React/TypeScript interfaces with Redux, working with IT leadership, specialists, and project managers to define requirements, iterate on features, and release production-ready tools.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Bottleneck discovery</p>
+						<h2>Measure boundaries, then change the right layer.</h2>
+						<ul>
+							<li>Profiled a critical database path rather than treating total page time as a single number.</li>
+							<li>Separated uncached query work from the cached response path.</li>
+							<li>Inspected rendered UI structure and identified more than 1,000 redundant DOM elements.</li>
+							<li>Measured the build-and-release workflow to find deployment delay.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Changes</p>
+						<h2>Database, cache, interface, and delivery.</h2>
+						<ul>
+							<li><strong>TimescaleDB:</strong> optimized the critical query path.</li>
+							<li><strong>Server-side cache:</strong> served repeat work without re-running the expensive path.</li>
+							<li><strong>React:</strong> simplified the rendered structure to improve responsiveness and maintainability.</li>
+							<li><strong>GitHub Actions + Docker:</strong> automated build, test, and release steps for AWS EC2 services.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Results</p>
+						<h2>Improvements at four distinct boundaries.</h2>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>80%</strong><span>Reduction in critical query time</span></div>
+							<div class="stat-card"><strong>6–7 ms</strong><span>Cached response time</span></div>
+							<div class="stat-card"><strong>70%</strong><span>Reduction in deployment time</span></div>
+						</div>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>1,000+</strong><span>Redundant DOM elements removed</span></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">07</span>
+					<div>
+						<p class="eyebrow">Verification</p>
+						<h2>Compare the same operation before and after.</h2>
+						<p>Each percentage refers to its own measurement boundary: query execution, cached service response, or deployment workflow. The numbers should not be combined into a single “system speed” claim.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">08</span>
+					<div>
+						<p class="eyebrow">Limitations</p>
+						<h2>Sanitized means reproducibility is necessarily partial.</h2>
+						<p>Because this was production work, the public case study cannot disclose the dataset, exact query, internal service topology, or workload. The useful evidence is the measurement discipline, architectural reasoning, and clearly bounded results.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">09</span>
+					<div>
+						<p class="eyebrow">Lesson</p>
+						<h2>Performance is a systems property.</h2>
+						<p>A faster query does not fix an overbuilt interface, and a cleaner interface does not fix a manual release process. Meaningful improvement came from treating the path as a connected system.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Project snapshot</p>
+					<h2>Production engineering</h2>
+					<dl>
+						<div><dt>Backend</dt><dd>Python, FastAPI</dd></div>
+						<div><dt>Frontend</dt><dd>React, TypeScript, Redux</dd></div>
+						<div><dt>Data</dt><dd>PostgreSQL, TimescaleDB</dd></div>
+						<div><dt>Delivery</dt><dd>Docker, GitHub Actions, EC2</dd></div>
+						<div><dt>Disclosure</dt><dd>Sanitized</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

@@ -1,0 +1,132 @@
+---
+import FlowDiagram from '../../components/FlowDiagram.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const pipeline = [
+	{ label: 'Camera frame', note: 'Video input' },
+	{ label: 'Pose estimation', note: '33 3D landmarks' },
+	{ label: 'Joint geometry', note: 'Angles + relationships' },
+	{ label: 'Exercise rules', note: 'Movement-specific checks' },
+	{ label: 'Feedback', note: 'Posture signal' },
+]
+---
+
+<Layout title="CortexMD Movement Analysis — Tamerlan Baimurat" description="Computer-vision case study for a pose and movement-assessment prototype using 33 landmarks, geometric features, and exercise-specific feedback.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Case study · computer vision</p>
+				<h1>Movement assessment without diagnostic overreach.</h1>
+				<p class="lede">CortexMD is presented as a pose and posture-analysis prototype. It does not claim to diagnose a condition or replace clinical evaluation.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Landmarks</span><strong>33 per frame</strong></div>
+				<div class="page-fact"><span>Reported latency</span><strong>Sub-200 ms</strong></div>
+				<div class="page-fact"><span>Exercises</span><strong>15+</strong></div>
+				<div class="page-fact"><span>Reported accuracy</span><strong>~92%</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Problem</p>
+						<h2>Turn video landmarks into interpretable movement feedback.</h2>
+						<p>The project explores whether a real-time pose pipeline can identify exercise-specific posture deviations using landmark geometry and explicit movement rules.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">Architecture</p>
+						<h2>Landmarks first, then geometry, then feedback.</h2>
+						<FlowDiagram steps={pipeline} label="Simplified CortexMD landmark-to-feedback pipeline." accent="blue" />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">Implementation</p>
+						<h2>Exercise-specific analysis on 33 three-dimensional landmarks.</h2>
+						<p>Each frame produces 33 3D landmarks. Joint angles and spatial relationships are derived from those points, then evaluated against movement-specific criteria for more than 15 exercises.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Reported results</p>
+						<h2>Fast enough for interactive feedback.</h2>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>33</strong><span>3D landmarks per frame</span></div>
+							<div class="stat-card"><strong>&lt;200 ms</strong><span>Reported end-to-end latency</span></div>
+							<div class="stat-card"><strong>~92%</strong><span>Reported posture-error accuracy</span></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Evaluation boundary</p>
+						<h2>The accuracy number needs a reproducible protocol.</h2>
+						<p>The approximately 92% figure is a project measurement for posture-error classification, not diagnostic accuracy. A public release should document the test set, labeling process, class balance, subject diversity, camera placement, threshold selection, and whether examples overlap across development and evaluation.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Demonstration</p>
+						<h2>Annotated movement demo in preparation.</h2>
+						<div class="evidence-placeholder">
+							<div>
+								<strong>Video + landmark overlay</strong>
+								<p>A public demo will show landmarks, measured angles, feedback timing, and representative correct/incorrect movement examples.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">07</span>
+					<div>
+						<p class="eyebrow">Limitations</p>
+						<h2>Pose estimation is sensitive to context.</h2>
+						<p>Camera angle, occlusion, lighting, clothing, body diversity, and movement speed can all affect landmark quality. The project is therefore described as a movement-analysis prototype, not a clinical tool.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">08</span>
+					<div>
+						<p class="eyebrow">Lesson</p>
+						<h2>Precise wording is part of responsible engineering.</h2>
+						<p>A strong computer-vision demo does not need an unsupported medical claim. Clear measurement boundaries make the engineering more credible.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Project snapshot</p>
+					<h2>Pose analysis</h2>
+					<dl>
+						<div><dt>Input</dt><dd>Video frames</dd></div>
+						<div><dt>Representation</dt><dd>33 3D landmarks</dd></div>
+						<div><dt>Features</dt><dd>Angles + spatial relationships</dd></div>
+						<div><dt>Output</dt><dd>Movement feedback</dd></div>
+						<div><dt>Claim boundary</dt><dd>Not diagnostic</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

@@ -1,0 +1,30 @@
+---
+import type { Project } from '../data/projects'
+
+interface Props {
+	project: Project
+	index?: number
+}
+
+const { project, index = 0 } = Astro.props
+---
+
+<article class="project-card" data-tracks={project.tracks.join('|')}>
+	<div class="card-topline">
+		<span>{String(index + 1).padStart(2, '0')}</span>
+		<span>{project.status}</span>
+	</div>
+	<p class="eyebrow">{project.kicker}</p>
+	<h3><a href={project.href} target={project.external ? '_blank' : undefined} rel={project.external ? 'noreferrer' : undefined}>{project.title}</a></h3>
+	<p>{project.summary}</p>
+	<div class="metric-row">
+		{project.metrics.map((metric) => <span>{metric}</span>)}
+	</div>
+	<div class="tag-row">
+		{project.technologies.map((technology) => <span>{technology}</span>)}
+	</div>
+	<a class="card-link" href={project.href} target={project.external ? '_blank' : undefined} rel={project.external ? 'noreferrer' : undefined}>
+		{project.external ? 'View project' : 'Read case study'} <span aria-hidden="true">↗</span>
+	</a>
+</article>
+

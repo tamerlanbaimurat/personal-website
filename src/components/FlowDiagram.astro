@@ -1,0 +1,31 @@
+---
+interface Step {
+	label: string
+	note?: string
+}
+
+interface Props {
+	steps: Step[]
+	label: string
+	accent?: 'green' | 'blue' | 'amber'
+}
+
+const { steps, label, accent = 'green' } = Astro.props
+---
+
+<figure class={`flow-diagram flow-${accent}`} aria-label={label}>
+	<div class="flow-track">
+		{steps.map((step, index) => (
+			<>
+				<div class="flow-step">
+					<span class="flow-index">{String(index + 1).padStart(2, '0')}</span>
+					<strong>{step.label}</strong>
+					{step.note && <small>{step.note}</small>}
+				</div>
+				{index < steps.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+			</>
+		))}
+	</div>
+	<figcaption>{label}</figcaption>
+</figure>
+

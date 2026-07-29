@@ -1,0 +1,163 @@
+---
+import FlowDiagram from '../../components/FlowDiagram.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const pipeline = [
+	{ label: '16 kHz noisy audio', note: 'Waveform input' },
+	{ label: 'STFT preprocessing', note: 'Time-frequency features' },
+	{ label: 'Residual encoder', note: 'Convolutional blocks' },
+	{ label: 'Gated DeltaNet', note: 'Temporal modeling' },
+	{ label: 'Frequency attention', note: 'Spectral focus' },
+	{ label: 'Decoder + noise gate', note: 'Enhanced output' },
+]
+---
+
+<Layout title="Attention-Based Speech Denoising — Tamerlan Baimurat" description="Case study for a PyTorch speech-denoising model using STFT preprocessing, residual convolutions, Gated DeltaNet, frequency attention, and a learned noise gate.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Case study · AI + speech + DSP</p>
+				<h1>Attention-based speech denoising.</h1>
+				<p class="lede">A four-person team project combining signal processing and learned temporal-spectral modeling, evaluated against MetricGAN+ across three test datasets.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>My role</span><strong>Team lead + implementation</strong></div>
+				<div class="page-fact"><span>Team</span><strong>4 people</strong></div>
+				<div class="page-fact"><span>Training data</span><strong>23,075 pairs</strong></div>
+				<div class="page-fact"><span>Status</span><strong>Completed · Spring 2026</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Problem</p>
+						<h2>Recover clearer speech without erasing it.</h2>
+						<p>Speech enhancement must reduce background noise while preserving the structure listeners and downstream models depend on. The challenge is not simply generating a smoother waveform; it is balancing speech quality, signal distortion, and residual noise.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">Architecture</p>
+						<h2>Local patterns, long-range context, and frequency focus.</h2>
+						<p>The model uses audio-to-STFT preprocessing, residual convolutional encoder-decoder blocks, Gated DeltaNet temporal modeling, frequency-axis attention, and a learned noise gate.</p>
+						<FlowDiagram steps={pipeline} label="Simplified speech-enhancement architecture." accent="blue" />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">Engineering decisions</p>
+						<h2>Give each block one job.</h2>
+						<ul>
+							<li><strong>STFT representation:</strong> exposes local spectral structure that is difficult to see directly in raw samples.</li>
+							<li><strong>Residual convolutions:</strong> learn local time-frequency features while preserving trainability through a deeper encoder-decoder.</li>
+							<li><strong>Gated DeltaNet:</strong> captures temporal relationships beyond a local convolutional window.</li>
+							<li><strong>Frequency attention:</strong> lets the model emphasize informative spectral regions.</li>
+							<li><strong>Learned noise gate:</strong> provides a trainable final suppression mechanism.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Dataset + method</p>
+						<h2>Paired training and three held-out evaluations.</h2>
+						<p>The team trained on <strong>23,075 paired clean/noisy samples at 16 kHz</strong>. Evaluation used three 824-example test sets. The same metric family was applied to the proposed system and the MetricGAN+ comparison.</p>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>23,075</strong><span>Paired training samples</span></div>
+							<div class="stat-card"><strong>16 kHz</strong><span>Sample rate</span></div>
+							<div class="stat-card"><strong>2,472</strong><span>Total test examples</span></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Results</p>
+						<h2>Higher than MetricGAN+ across every reported dataset and metric.</h2>
+						<p>The model outperformed MetricGAN+ on PESQ, CSIG, CBAK, and COVL across all three evaluation datasets. Exact University of Edinburgh results are shown below; additional per-dataset numbers will be added with the public report.</p>
+						<table class="data-table">
+							<thead><tr><th>Dataset</th><th>PESQ</th><th>CSIG</th><th>CBAK</th><th>COVL</th><th>vs. MetricGAN+</th></tr></thead>
+							<tbody><tr><td>University of Edinburgh</td><td><strong>3.1383</strong></td><td><strong>4.5913</strong></td><td><strong>3.9756</strong></td><td><strong>3.9236</strong></td><td>Higher on all four</td></tr></tbody>
+						</table>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Ablations</p>
+						<h2>Attention was critical; Gated DeltaNet was consistently useful.</h2>
+						<p>Controlled ablations showed that removing attention caused the clearest degradation. Gated DeltaNet also improved performance consistently, supporting the value of explicit temporal modeling rather than relying on convolutional blocks alone.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">07</span>
+					<div>
+						<p class="eyebrow">My contribution</p>
+						<h2>Led the team and drove implementation.</h2>
+						<p>I led the four-person team and drove much of the implementation. The benchmark results are team outcomes; this case study separates that shared result from my individual ownership.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">08</span>
+					<div>
+						<p class="eyebrow">Demonstration</p>
+						<h2>Audio and spectrogram release in preparation.</h2>
+						<div class="evidence-placeholder">
+							<div>
+								<strong>Noisy / clean / model-output comparison</strong>
+								<p>Public audio, aligned spectrograms, source code, and the final report will be linked here after the team confirms a suitable release package.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">09</span>
+					<div>
+						<p class="eyebrow">Limitations</p>
+						<h2>Objective scores are not the whole listening experience.</h2>
+						<p>PESQ, CSIG, CBAK, and COVL are useful, but they do not replace controlled listening tests or evaluation on deployment-specific noise. Public release should also state the exact data splits, preprocessing configuration, hardware, and inference boundary.</p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">10</span>
+					<div>
+						<p class="eyebrow">Lesson</p>
+						<h2>Ablations turn architecture into an argument.</h2>
+						<p>The strongest result was not only the benchmark win. The ablation study showed which parts of the model actually mattered, making the design more interpretable and the claims more credible.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Project snapshot</p>
+					<h2>Speech enhancement</h2>
+					<dl>
+						<div><dt>Stack</dt><dd>Python, PyTorch, STFT</dd></div>
+						<div><dt>Model</dt><dd>Encoder-decoder + attention</dd></div>
+						<div><dt>Temporal block</dt><dd>Gated DeltaNet</dd></div>
+						<div><dt>Evaluation</dt><dd>PESQ, CSIG, CBAK, COVL</dd></div>
+						<div><dt>Artifacts</dt><dd>Public release pending</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

@@ -1,0 +1,74 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import ProjectCard from '../../components/ProjectCard.astro'
+import { projects } from '../../data/projects'
+
+const filters = [
+	{ key: 'all', label: 'All work' },
+	{ key: 'AI & research', label: 'AI & research' },
+	{ key: 'Software & systems', label: 'Software & systems' },
+	{ key: 'Hardware & DSP', label: 'Hardware & DSP' },
+]
+---
+
+<Layout title="Projects — Tamerlan Baimurat" description="Selected projects in trustworthy AI, speech processing, production systems, RAG, computer vision, FPGA design, and hardware.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Projects</p>
+				<h1>Built, measured, and explained.</h1>
+				<p class="lede">A selected portfolio across AI research, software systems, speech and DSP, FPGA design, and earlier hardware work.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Featured case studies</span><strong>6</strong></div>
+				<div class="page-fact"><span>Portfolio tracks</span><strong>3</strong></div>
+				<div class="page-fact"><span>Primary standard</span><strong>Evidence first</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell">
+			<div class="filter-bar" role="group" aria-label="Filter projects">
+				{filters.map((filter, index) => (
+					<button class="filter-button" type="button" data-filter={filter.key} aria-pressed={index === 0 ? 'true' : 'false'}>
+						{filter.label}
+					</button>
+				))}
+			</div>
+			<div class="project-grid" data-project-grid>
+				{projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')]
+		const cards = [...document.querySelectorAll<HTMLElement>('[data-tracks]')]
+		const aliases: Record<string, string> = {
+			ai: 'AI & research',
+			software: 'Software & systems',
+			hardware: 'Hardware & DSP',
+		}
+
+		function applyFilter(value: string) {
+			const selected = aliases[value.toLowerCase()] ?? value
+			buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === selected || (selected === 'all' && button.dataset.filter === 'all'))))
+			cards.forEach((card) => {
+				card.hidden = selected !== 'all' && !card.dataset.tracks?.split('|').includes(selected)
+			})
+		}
+
+		buttons.forEach((button) => button.addEventListener('click', () => {
+			applyFilter(button.dataset.filter ?? 'all')
+			const url = new URL(window.location.href)
+			if (button.dataset.filter === 'all') url.searchParams.delete('track')
+			else url.searchParams.set('track', (button.dataset.filter ?? '').split(' ')[0].toLowerCase())
+			history.replaceState({}, '', url)
+		}))
+
+		const initial = new URLSearchParams(window.location.search).get('track')
+		if (initial) applyFilter(initial)
+	</script>
+</Layout>
+

@@ -1,0 +1,126 @@
+---
+import FlowDiagram from '../components/FlowDiagram.astro'
+import Layout from '../layouts/Layout.astro'
+
+const pipeline = [
+	{ label: 'Clinical conversation', note: 'Input context' },
+	{ label: 'Automatic speech recognition', note: 'Audio → transcript' },
+	{ label: 'Transcript processing', note: 'Structure + context' },
+	{ label: 'Document generation', note: 'Draft documentation' },
+	{ label: 'Validation mechanisms', note: 'Flag possible issues' },
+	{ label: 'User study + evaluation', note: 'Human interaction' },
+]
+---
+
+<Layout title="Research — Tamerlan Baimurat" description="Trustworthy AI, medical documentation, speech processing, DSP, and human-centered evaluation research by Tamerlan Baimurat.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Research</p>
+				<h1>Trustworthy AI for human work.</h1>
+				<p class="lede">I study how AI-assisted systems can be evaluated for reliability, especially when speech, generated documentation, and human decision-making meet.</p>
+				<div class="page-actions">
+					<a class="button button-primary" href="mailto:baimurat@bu.edu">Discuss research</a>
+					<a class="button" href="/Tamerlan-Baimurat-Resume.pdf" download>Research resume</a>
+				</div>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Status</span><strong>Ongoing</strong></div>
+				<div class="page-fact"><span>Recognition</span><strong>UROP funded</strong></div>
+				<div class="page-fact"><span>Funding periods</span><strong>Spring + Summer 2026</strong></div>
+				<div class="page-fact"><span>Institution</span><strong>Boston University</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell content-grid">
+			<div class="article-stack">
+				<section class="article-section">
+					<span class="article-number">01</span>
+					<div>
+						<p class="eyebrow">Research statement</p>
+						<h2>Reliability is part of the interface.</h2>
+						<p>AI systems used for documentation should do more than generate fluent text. They should help people recognize uncertainty, potential errors, and unsupported content without adding unnecessary friction to the work.</p>
+						<p>My interests span trustworthy AI, medical documentation, speech and language processing, DSP, and human-centered evaluation. The common question is simple: <strong>how do we know a system is helping, and how do we make its failure modes visible?</strong></p>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">02</span>
+					<div>
+						<p class="eyebrow">Current project</p>
+						<h2>AI-assisted clinical documentation</h2>
+						<p>This ongoing project investigates an end-to-end prototype that combines automatic speech recognition, transcript processing, medical-document generation, and validation mechanisms intended to flag potential errors or unsupported outputs.</p>
+						<FlowDiagram steps={pipeline} label="Abstract research architecture. No private data or confidential implementation details are shown." />
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">03</span>
+					<div>
+						<p class="eyebrow">My role</p>
+						<h2>Prototype, validation, and study design.</h2>
+						<ul>
+							<li>Developing components of the end-to-end prototype and validation layer.</li>
+							<li>Investigating ways to surface potential errors and unsupported outputs.</li>
+							<li>Designing a user-study and data-collection workflow around human interaction and documentation impact.</li>
+							<li>Preparing ongoing work for a future research manuscript without representing it as published or accepted.</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">04</span>
+					<div>
+						<p class="eyebrow">Research questions</p>
+						<h2>What needs to be measured?</h2>
+						<ul>
+							<li>Which generated statements are unsupported by the available source context?</li>
+							<li>How should a validation layer communicate risk without overwhelming the user?</li>
+							<li>How does validation affect review behavior, documentation quality, and time?</li>
+							<li>Where do automated metrics stop being useful, and where is human evaluation essential?</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">05</span>
+					<div>
+						<p class="eyebrow">Evaluation approach</p>
+						<h2>Separate system quality from human impact.</h2>
+						<p>The evaluation plan distinguishes component-level behavior from end-to-end use. Prototype testing examines transcription, generation, and validation behavior; the planned user workflow evaluates how people interact with the system and how it affects documentation work.</p>
+						<div class="stat-grid">
+							<div class="stat-card"><strong>01</strong><span>Component behavior</span></div>
+							<div class="stat-card"><strong>02</strong><span>Unsupported-output review</span></div>
+							<div class="stat-card"><strong>03</strong><span>Human-centered outcomes</span></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="article-section">
+					<span class="article-number">06</span>
+					<div>
+						<p class="eyebrow">Boundaries</p>
+						<h2>What is intentionally not shown.</h2>
+						<p>This public case study contains no protected health information, private datasets, confidential implementation details, or clinical performance claims. Adviser, laboratory, poster, report, and manuscript links will be added only after they are confirmed and public.</p>
+					</div>
+				</section>
+			</div>
+
+			<aside>
+				<div class="aside-card">
+					<p class="eyebrow">Research profile</p>
+					<h2>Areas of interest</h2>
+					<dl>
+						<div><dt>Trustworthy AI</dt><dd>Validation, unsupported outputs, reliability</dd></div>
+						<div><dt>Speech + language</dt><dd>ASR, speech enhancement, NLP</dd></div>
+						<div><dt>Signals</dt><dd>STFT, DSP, learned representations</dd></div>
+						<div><dt>Evaluation</dt><dd>User studies, benchmarks, ablations</dd></div>
+					</dl>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+

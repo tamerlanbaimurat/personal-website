@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+const planned = [
+	'Why I used a clock enable instead of a generated clock on an FPGA',
+	'What our speech-denoising ablations taught us about attention',
+	'Designing evaluation for reliable AI-assisted clinical documentation',
+	'Building local document search with Qdrant and Qwen embeddings',
+	'Measuring database, cache, and deployment performance responsibly',
+	'From a split keyboard in Kazakhstan to electrical engineering and medical AI',
+]
+---
+
+<Layout title="Research, Writing & Press — Tamerlan Baimurat" description="Technical writing plans and press about Tamerlan Baimurat’s engineering path.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Research, Writing & Press</p>
+				<h1>Ideas should survive explanation.</h1>
+				<p class="lede">Technical notes are in development. I will publish only non-confidential material with enough evidence to be useful.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Published interviews</span><strong>1</strong></div>
+				<div class="page-fact"><span>Technical notes</span><strong>In progress</strong></div>
+				<div class="page-fact"><span>Research papers</span><strong>None claimed yet</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell">
+			<header class="section-header">
+				<p class="section-number">01 / Press</p>
+				<h2>A personal engineering story.</h2>
+				<p class="section-intro">The interview covers the path from an ergonomic keyboard project in Kazakhstan to electrical engineering and medical AI in Boston.</p>
+			</header>
+			<article class="writing-card">
+				<p class="eyebrow">Feature interview · Limon Media · September 2025</p>
+				<h2>How Tamerlan invented a keyboard at 16 and changed direction toward engineering in Boston</h2>
+				<p>Russian-language interview on early hardware work, education, and the transition from computer science toward electrical engineering and healthcare-related systems.</p>
+				<a class="card-link" href="https://limon.kg/ru/news:84997" target="_blank" rel="noreferrer">Read interview <span aria-hidden="true">↗</span></a>
+			</article>
+		</div>
+	</section>
+
+	<section class="section section-compact">
+		<div class="section-shell">
+			<header class="section-header">
+				<p class="section-number">02 / Notebook</p>
+				<h2>Notes in development.</h2>
+				<p class="section-intro">These are planned articles, not published pieces. Their status is explicit so the site does not overstate the body of work.</p>
+			</header>
+			<div class="writing-list">
+				{planned.map((title, index) => (
+					<article class="writing-card">
+						<p class="eyebrow">{String(index + 1).padStart(2, '0')} · Draft planned</p>
+						<h2>{title}</h2>
+						<p>Evidence, diagrams, and methodology will be added before publication.</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+</Layout>
+

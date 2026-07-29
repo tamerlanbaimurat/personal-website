@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+const roles = [
+	{
+		period: 'Dec. 2025 — present',
+		title: 'Research Assistant',
+		organization: 'Boston University',
+		location: 'Boston, MA',
+		scope: 'Trustworthy AI for medical documentation, from prototype components and validation mechanisms to a user-study workflow.',
+		results: ['Competitive UROP funding for Spring and Summer 2026', 'End-to-end prototype spanning ASR, transcript processing, generation, and validation', 'Ongoing work being prepared for a future research manuscript'],
+		link: '/research',
+	},
+	{
+		period: 'Aug. 2025 — May 2026',
+		title: 'Software Engineer',
+		organization: 'Boston University College of Engineering',
+		location: 'Boston, MA',
+		scope: 'Independent development of production automation tools with IT leadership and project stakeholders.',
+		results: ['Reduced a critical TimescaleDB query by 80% and achieved 6–7 ms cached responses', 'Removed 1,000+ redundant DOM elements', 'Reduced Docker/GitHub Actions deployment time by 70%'],
+		link: '/projects/performance-engineering',
+	},
+	{
+		period: 'May 2024 — Aug. 2024',
+		title: 'Full-Stack Developer Intern',
+		organization: 'AlmaEco LLP',
+		location: 'Astana, Kazakhstan',
+		scope: 'Built and deployed a multilingual React/FastAPI healthcare platform with a tuned Linux/Nginx stack.',
+		results: ['Served 3,000+ monthly users across 40+ countries', 'Reduced API latency by approximately 65% to sub-200 ms', 'Delivered English, Kazakh, and Russian localization'],
+	},
+	{
+		period: 'Jan. 2024 — May 2024',
+		title: 'Software Engineer Intern',
+		organization: 'Attire LLC',
+		location: 'East Lansing, MI',
+		scope: 'FastAPI/Flutter product development with Firebase and a retrieval-augmented assistant.',
+		results: ['Reduced median API latency from 120 ms to 75 ms in load tests', 'Built a LangChain RAG assistant measured at 90% intent-match accuracy in pre-MVP testing'],
+	},
+	{
+		period: 'Jan. 2024 — May 2024',
+		title: 'Teaching Assistant — CSE 231',
+		organization: 'Michigan State University',
+		location: 'East Lansing, MI',
+		scope: 'Led weekly Python programming labs and supported 47 students with debugging and algorithm development.',
+		results: ['47 students supported', 'Weekly labs, structured exercises, and collaborative problem solving'],
+	},
+]
+---
+
+<Layout title="Experience — Tamerlan Baimurat" description="Research, production software engineering, healthcare platform development, startup engineering, and teaching experience.">
+	<header class="page-hero">
+		<div class="page-shell page-hero-grid">
+			<div>
+				<p class="eyebrow">Experience</p>
+				<h1>Work with measurable outcomes.</h1>
+				<p class="lede">Short summaries here; case studies carry the deeper architecture, decisions, validation, and limitations.</p>
+			</div>
+			<div class="page-facts">
+				<div class="page-fact"><span>Research</span><strong>Boston University</strong></div>
+				<div class="page-fact"><span>Internships</span><strong>3 software roles</strong></div>
+				<div class="page-fact"><span>Teaching</span><strong>47 students</strong></div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="section-shell">
+			<div class="experience-list">
+				{roles.map((role) => (
+					<article class="article-section">
+						<span class="article-number">{role.period}</span>
+						<div>
+							<p class="eyebrow">{role.organization} · {role.location}</p>
+							<h2>{role.title}</h2>
+							<p><strong>Scope:</strong> {role.scope}</p>
+							<ul>
+								{role.results.map((result) => <li>{result}</li>)}
+							</ul>
+							{role.link && <a class="card-link" href={role.link}>Related case study <span aria-hidden="true">↗</span></a>}
+						</div>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+</Layout>
+
