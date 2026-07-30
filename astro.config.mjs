@@ -5,4 +5,7 @@ import { defineConfig } from 'astro/config'
 export default defineConfig({
 	site: 'https://tamerlanbaimurat.com',
 	output: 'static',
+	redirects: {
+		'/writing': '/press',
+	},
 })

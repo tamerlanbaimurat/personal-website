@@ -961,13 +961,7 @@ h3 {
 	display: none;
 }
 
-.writing-list {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 1rem;
-}
-
-.writing-card {
+.press-card {
 	min-height: 18rem;
 	padding: 1.7rem;
 	border: 1px solid var(--line);
@@ -975,12 +969,12 @@ h3 {
 	background: var(--surface);
 }
 
-.writing-card h2 {
+.press-card h2 {
 	margin-top: 3rem;
 	font-size: clamp(1.5rem, 2.6vw, 2.3rem);
 }
 
-.writing-card p {
+.press-card p {
 	color: var(--muted);
 }
 
@@ -1215,7 +1209,6 @@ h3 {
 	}
 
 	.project-grid,
-	.writing-list,
 	.contact-grid {
 		grid-template-columns: 1fr;
 	}
