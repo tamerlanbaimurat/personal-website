@@ -13,16 +13,11 @@ const filters = [
 
 <Layout title="Projects — Tamerlan Baimurat" description="Selected projects in trustworthy AI, speech processing, production systems, RAG, computer vision, FPGA design, and hardware.">
 	<header class="page-hero">
-		<div class="page-shell page-hero-grid">
+		<div class="page-shell">
 			<div>
 				<p class="eyebrow">Projects</p>
-				<h1>Built, measured, and explained.</h1>
-				<p class="lede">A selected portfolio across AI research, software systems, speech and DSP, FPGA design, and earlier hardware work.</p>
-			</div>
-			<div class="page-facts">
-				<div class="page-fact"><span>Featured case studies</span><strong>6</strong></div>
-				<div class="page-fact"><span>Portfolio tracks</span><strong>3</strong></div>
-				<div class="page-fact"><span>Primary standard</span><strong>Evidence first</strong></div>
+				<h1>Projects.</h1>
+				<p class="lede">A selection of my work in AI, software, speech, and hardware.</p>
 			</div>
 		</div>
 	</header>
@@ -36,8 +31,8 @@ const filters = [
 					</button>
 				))}
 			</div>
-			<div class="project-grid" data-project-grid>
-				{projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+			<div class="project-list" data-project-grid>
+				{projects.map((project) => <ProjectCard project={project} />)}
 			</div>
 		</div>
 	</section>
@@ -52,8 +47,9 @@ const filters = [
 		}
 
 		function applyFilter(value: string) {
-			const selected = aliases[value.toLowerCase()] ?? value
-			buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === selected || (selected === 'all' && button.dataset.filter === 'all'))))
+			const requested = aliases[value.toLowerCase()] ?? value
+			const selected = buttons.some((button) => button.dataset.filter === requested) ? requested : 'all'
+			buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === selected)))
 			cards.forEach((card) => {
 				card.hidden = selected !== 'all' && !card.dataset.tracks?.split('|').includes(selected)
 			})

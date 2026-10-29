@@ -22,7 +22,7 @@ export const projects: Project[] = [
 		kicker: 'UROP-funded research',
 		period: 'December 2025 - present',
 		summary:
-			'An ongoing research prototype connecting speech recognition, transcript processing, document generation, and validation mechanisms for safer AI-assisted clinical documentation.',
+			'Researching ways to make AI-generated medical documentation more reliable.',
 		tracks: ['AI & research', 'Software & systems'],
 		metrics: ['Spring + Summer 2026 UROP funding', 'Ongoing research'],
 		technologies: ['ASR', 'LLMs', 'Validation', 'Human-centered evaluation'],
@@ -36,7 +36,7 @@ export const projects: Project[] = [
 		kicker: 'Deep learning + DSP',
 		period: 'Spring 2026',
 		summary:
-			'Led a four-person team building an encoder-decoder that combines residual convolutions, temporal modeling, frequency attention, and a learned noise gate.',
+			'An attention-based model that removes noise from speech, built with a four-person team.',
 		tracks: ['AI & research', 'Hardware & DSP'],
 		metrics: ['23,075 training pairs', '3 × 824-example test sets'],
 		technologies: ['PyTorch', 'STFT', 'Gated DeltaNet', 'Attention'],
@@ -47,10 +47,10 @@ export const projects: Project[] = [
 	{
 		slug: 'performance-engineering',
 		title: 'Production performance engineering',
-		kicker: 'Sanitized experience case study',
+		kicker: 'Software & systems',
 		period: 'August 2025 - May 2026',
 		summary:
-			'Improved a production automation platform across its TimescaleDB queries, React interface, caching layer, and deployment workflow.',
+			'Faster database queries, a lighter React interface, and quicker deployments.',
 		tracks: ['Software & systems'],
 		metrics: ['80% faster critical query', '70% faster deployment'],
 		technologies: ['FastAPI', 'React', 'TimescaleDB', 'AWS'],
@@ -64,7 +64,7 @@ export const projects: Project[] = [
 		kicker: 'Digital hardware',
 		period: '2026',
 		summary:
-			'Modular RTL that accepts standard 8-bit ASCII and emits variable-length Morse sequences while keeping the design in one 100 MHz clock domain.',
+			'A Verilog design that translates text into Morse code on an FPGA.',
 		tracks: ['Hardware & DSP'],
 		metrics: ['62 supported inputs', '100 MHz clock domain'],
 		technologies: ['Verilog', 'Vivado', 'Artix-7', 'RTL verification'],
@@ -78,7 +78,7 @@ export const projects: Project[] = [
 		kicker: 'Local document search',
 		period: '2025 - present',
 		summary:
-			'A tested local search platform with document ingestion, Qwen embeddings, Qdrant retrieval, and CLI, API, and browser interfaces.',
+			'Local document search with embeddings, retrieval, and CLI, API, and web interfaces.',
 		tracks: ['AI & research', 'Software & systems'],
 		metrics: ['Local-first', '3 interfaces'],
 		technologies: ['Qdrant', 'FastAPI', 'Vue 3', 'Docker'],
@@ -91,7 +91,7 @@ export const projects: Project[] = [
 		kicker: 'Computer vision',
 		period: 'Project',
 		summary:
-			'A pose and movement-assessment prototype that maps three-dimensional landmarks to exercise-specific posture signals without making a clinical diagnostic claim.',
+			'A computer vision prototype for exercise posture and movement analysis.',
 		tracks: ['AI & research', 'Software & systems'],
 		metrics: ['33 landmarks per frame', '15+ exercises'],
 		technologies: ['OpenCV', 'Pose estimation', 'Geometry', 'Python'],
@@ -103,7 +103,7 @@ export const projects: Project[] = [
 		kicker: 'Earlier engineering work',
 		period: '2021 - 2022',
 		summary:
-			'An ergonomic split keyboard project spanning KiCad board and plate design, firmware adaptation, team leadership, and competition presentation.',
+			'An ergonomic split keyboard, from custom circuit boards to firmware.',
 		tracks: ['Hardware & DSP'],
 		metrics: ['Top 40 of 300 teams', 'KiCad + C'],
 		technologies: ['KiCad', 'PCB design', 'C firmware', 'Prototyping'],
@@ -116,7 +116,7 @@ export const projects: Project[] = [
 		kicker: 'Deployed systems',
 		period: '2025 - present',
 		summary:
-			'A smaller Telegram project combining live weather, semantic wardrobe retrieval, Docker deployment, and Prometheus/Grafana observability.',
+			'A Telegram bot that recommends outfits using live weather and wardrobe search.',
 		tracks: ['AI & research', 'Software & systems'],
 		metrics: ['RAG pipeline', 'Observable deployment'],
 		technologies: ['Python', 'Docker', 'Prometheus', 'Grafana'],

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-	title = 'Tamerlan Baimurat — Trustworthy AI, speech systems, and production engineering',
+	title = 'Tamerlan Baimurat — Electrical engineering & AI',
 	description = 'Electrical engineer building trustworthy AI, speech systems, high-performance software, and digital hardware.',
 } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
@@ -23,11 +23,8 @@ const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin)
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#0d1914" />
+		<meta name="theme-color" content="#fcfcfc" />
 		<link rel="canonical" href={canonical} />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 		<title>{title}</title>
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
@@ -39,9 +36,16 @@ const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin)
 		<meta name="twitter:image" content={socialImage} />
 		<script is:inline>
 			(() => {
-				const saved = localStorage.getItem('theme')
+				let saved
+				try {
+					saved = localStorage.getItem('theme')
+				} catch {
+					// System preference still works when browser storage is unavailable.
+				}
 				const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-				document.documentElement.dataset.theme = saved || preferred
+				const theme = saved === 'light' || saved === 'dark' ? saved : preferred
+				document.documentElement.dataset.theme = theme
+				document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#141414' : '#fcfcfc'
 			})()
 		</script>
 	</head>
@@ -53,11 +57,39 @@ const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin)
 		</main>
 		<SiteFooter />
 		<script>
-			document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
-				const current = document.documentElement.dataset.theme
-				const next = current === 'dark' ? 'light' : 'dark'
-				document.documentElement.dataset.theme = next
-				localStorage.setItem('theme', next)
+			const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]')
+			const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+			let manualTheme = false
+			try {
+				const saved = localStorage.getItem('theme')
+				manualTheme = saved === 'light' || saved === 'dark'
+			} catch {
+				// The toggle also works without persistent storage.
+			}
+
+			function applyTheme(theme: string) {
+				document.documentElement.dataset.theme = theme
+				const label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+				toggle?.setAttribute('aria-label', label)
+				toggle?.setAttribute('title', label)
+				document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141414' : '#fcfcfc')
+			}
+
+			applyTheme(document.documentElement.dataset.theme ?? 'light')
+
+			toggle?.addEventListener('click', () => {
+				const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+				manualTheme = true
+				applyTheme(next)
+				try {
+					localStorage.setItem('theme', next)
+				} catch {
+					// Keep the chosen theme for this page even if it cannot be saved.
+				}
+			})
+
+			systemTheme.addEventListener('change', (event) => {
+				if (!manualTheme) applyTheme(event.matches ? 'dark' : 'light')
 			})
 		</script>
 	</body>
