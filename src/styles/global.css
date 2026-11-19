@@ -259,6 +259,98 @@ h3 {
 	margin-top: 0.5rem;
 }
 
+.home-intro:has(+ .waterfall) {
+	padding-bottom: 1.5rem;
+}
+
+.waterfall {
+	margin: 0 0 5rem;
+}
+
+.waterfall-canvas {
+	display: block;
+	width: min(100%, 1180px);
+	height: clamp(210px, 36vw, 420px);
+	margin-inline: auto;
+	cursor: grab;
+	touch-action: pan-y;
+	mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+}
+
+.waterfall-canvas[data-dragging] {
+	cursor: grabbing;
+}
+
+.waterfall-meta {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.5rem 2rem;
+	margin-top: 1rem;
+}
+
+.waterfall-quote {
+	margin: 0;
+}
+
+.waterfall-quote blockquote {
+	margin: 0;
+}
+
+.waterfall-quote p {
+	max-width: 24rem;
+	margin-bottom: 0.4rem;
+	font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+	line-height: 1.45;
+	letter-spacing: -0.02em;
+	text-wrap: balance;
+}
+
+.waterfall-quote figcaption,
+.waterfall-status {
+	color: var(--muted);
+	font-size: 0.8rem;
+}
+
+.waterfall-controls {
+	display: flex;
+	align-items: flex-end;
+	flex-direction: column;
+	gap: 0.6rem;
+	text-align: right;
+}
+
+.waterfall-controls[hidden] {
+	display: none;
+}
+
+.waterfall-status {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0 0.75rem;
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+}
+
+.waterfall-mic {
+	color: var(--ink);
+	background: transparent;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.waterfall-mic[aria-pressed='true'] {
+	color: var(--paper);
+	border-color: var(--ink);
+	background: var(--ink);
+}
+
+.waterfall-mic:disabled {
+	color: var(--muted);
+	cursor: progress;
+}
+
 .selected-work {
 	padding-bottom: 6rem;
 }
@@ -819,6 +911,21 @@ h3 {
 
 	.selected-work {
 		padding-bottom: 4rem;
+	}
+
+	.waterfall-meta {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.waterfall-controls {
+		align-items: flex-start;
+		flex-direction: column-reverse;
+		text-align: left;
+	}
+
+	.waterfall-status {
+		justify-content: flex-start;
 	}
 
 	.project-link {

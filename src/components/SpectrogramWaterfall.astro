@@ -1,0 +1,480 @@
+---
+---
+
+<div class="waterfall">
+	<canvas class="waterfall-canvas" data-waterfall aria-hidden="true"></canvas>
+	<div class="page-shell waterfall-meta">
+		<figure class="waterfall-quote">
+			<blockquote>
+				<p>“Mathematical analysis is as extensive as nature itself.”</p>
+			</blockquote>
+			<figcaption>Joseph Fourier, 1822</figcaption>
+		</figure>
+		<div class="waterfall-controls" data-waterfall-controls hidden>
+			<p class="waterfall-status">
+				<span data-waterfall-status role="status"></span>
+				<span data-waterfall-pitch aria-hidden="true"></span>
+			</p>
+			<button class="button waterfall-mic" type="button" data-waterfall-mic aria-pressed="false">Use your microphone</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	// A waterfall spectrogram: each line is one short-time spectrum. Frequency runs
+	// across, time recedes into the page, height is magnitude. It draws a synthetic
+	// voice until the visitor turns on their microphone.
+	const COLS = 200
+	const ROWS = 46
+	const FMAX = 5000
+	const HOP_MS = 85
+	const PEAK = 0.34
+	const DEPTH = 2.5
+	const DISTANCE = 4.4
+	const HALF_WIDTH = 1.55
+
+	// Formant targets (Hz) for a handful of vowels.
+	const VOWELS = [
+		[730, 1090, 2440],
+		[270, 2290, 3010],
+		[300, 870, 2240],
+		[530, 1840, 2480],
+		[570, 840, 2410],
+		[660, 1720, 2410],
+		[440, 1020, 2240],
+	]
+
+	type Segment = { kind: 'vowel' | 'fricative' | 'pause'; frames: number; vowel: number[] }
+	type Microphone = { frame: () => Float32Array; pitch: () => number; stop: () => void }
+
+	function createVoice() {
+		let segment: Segment = { kind: 'vowel', frames: 5, vowel: VOWELS[0] }
+		let syllablesLeft = 5
+		let formants = [...VOWELS[0]]
+		let amplitude = 0
+		let pitch = 185
+		let noise = new Float32Array(COLS)
+
+		const pick = <T,>(items: T[]) => items[Math.floor(Math.random() * items.length)]
+
+		function nextSegment(): Segment {
+			if (segment.kind === 'pause') {
+				syllablesLeft = 3 + Math.floor(Math.random() * 5)
+				pitch = 170 + Math.random() * 40
+				return { kind: 'vowel', frames: 3 + Math.floor(Math.random() * 4), vowel: pick(VOWELS) }
+			}
+			if (segment.kind === 'vowel') {
+				syllablesLeft -= 1
+				if (syllablesLeft <= 0) return { kind: 'pause', frames: 4 + Math.floor(Math.random() * 5), vowel: segment.vowel }
+				if (Math.random() < 0.4) return { kind: 'fricative', frames: 1 + Math.floor(Math.random() * 2), vowel: segment.vowel }
+			}
+			return { kind: 'vowel', frames: 3 + Math.floor(Math.random() * 5), vowel: pick(VOWELS) }
+		}
+
+		return function frame(): Float32Array {
+			if (segment.frames <= 0) segment = nextSegment()
+			segment.frames -= 1
+
+			const voiced = segment.kind === 'vowel'
+			const target = segment.kind === 'pause' ? 0 : voiced ? 1 : 0.55
+			amplitude += (target - amplitude) * (target > amplitude ? 0.6 : 0.45)
+			for (let i = 0; i < 3; i += 1) formants[i] += (segment.vowel[i] - formants[i]) * 0.42
+			// Pitch drifts down across a phrase, with a little jitter.
+			pitch = Math.max(105, pitch - 1.6 + (Math.random() - 0.5) * 5)
+
+			// Smoothed noise for breath and fricatives.
+			const fresh = new Float32Array(COLS)
+			for (let c = 0; c < COLS; c += 1) fresh[c] = Math.random()
+			for (let c = 0; c < COLS; c += 1) {
+				const smooth = (fresh[Math.max(0, c - 1)] + fresh[c] * 2 + fresh[Math.min(COLS - 1, c + 1)]) / 4
+				noise[c] = smooth
+			}
+
+			const out = new Float32Array(COLS)
+			for (let c = 0; c < COLS; c += 1) {
+				const f = (c / (COLS - 1)) * FMAX
+				let value = 0
+				if (voiced) {
+					const env =
+						1 / (1 + ((f - formants[0]) / 150) ** 2) +
+						0.75 / (1 + ((f - formants[1]) / 190) ** 2) +
+						0.45 / (1 + ((f - formants[2]) / 260) ** 2)
+					const harmonic = Math.max(1, Math.round(f / pitch))
+					const offset = (f - harmonic * pitch) / 36
+					const comb = Math.exp(-offset * offset)
+					value = env * (0.2 + 0.8 * comb) * Math.exp(-f / 4200)
+				} else {
+					const hiss = 1 / (1 + ((f - 4100) / 900) ** 2)
+					value = hiss * (0.25 + noise[c] * 0.9)
+				}
+				out[c] = Math.pow(value * amplitude, 0.62) + noise[c] * 0.022
+			}
+			return out
+		}
+	}
+
+	// Autocorrelation pitch estimate in Hz, or 0 when the frame is quiet or unvoiced.
+	function detectPitch(wave: Float32Array, sampleRate: number): number {
+		const minLag = Math.floor(sampleRate / 500)
+		const maxLag = Math.min(Math.floor(sampleRate / 75), wave.length >> 1)
+		const span = wave.length - maxLag
+		let energy = 0
+		for (let i = 0; i < span; i += 1) energy += wave[i] * wave[i]
+		if (Math.sqrt(energy / span) < 0.012) return 0
+
+		const scores = new Float32Array(maxLag + 2)
+		let best = 0
+		for (let lag = minLag; lag <= maxLag; lag += 1) {
+			let sum = 0
+			let shifted = 0
+			for (let i = 0; i < span; i += 1) {
+				sum += wave[i] * wave[i + lag]
+				shifted += wave[i + lag] * wave[i + lag]
+			}
+			scores[lag] = sum / Math.sqrt(energy * shifted + 1e-12)
+			if (scores[lag] > best) best = scores[lag]
+		}
+		if (best < 0.6) return 0
+		// Take the shortest lag that is nearly as good as the best, to avoid octave drops.
+		for (let lag = minLag + 1; lag < maxLag; lag += 1) {
+			if (scores[lag] >= best * 0.93 && scores[lag] >= scores[lag - 1] && scores[lag] >= scores[lag + 1]) {
+				const curve = scores[lag - 1] - 2 * scores[lag] + scores[lag + 1]
+				const shift = curve ? (0.5 * (scores[lag - 1] - scores[lag + 1])) / curve : 0
+				return sampleRate / (lag + shift)
+			}
+		}
+		return 0
+	}
+
+	async function openMicrophone(): Promise<Microphone> {
+		const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+		const audio = new AudioContext()
+		await audio.resume()
+		const analyser = audio.createAnalyser()
+		analyser.fftSize = 2048
+		analyser.smoothingTimeConstant = 0.5
+		// The analyser is never connected to the speakers, and nothing is recorded or sent.
+		audio.createMediaStreamSource(stream).connect(analyser)
+
+		const spectrum = new Float32Array(analyser.frequencyBinCount)
+		const wave = new Float32Array(analyser.fftSize)
+		const binHz = audio.sampleRate / analyser.fftSize
+		const range = 46
+		let peakDb = -50
+
+		return {
+			frame() {
+				analyser.getFloatFrequencyData(spectrum)
+				const lastBin = Math.min(spectrum.length - 1, Math.ceil(FMAX / binHz))
+				let loudest = -Infinity
+				for (let b = 1; b <= lastBin; b += 1) if (spectrum[b] > loudest) loudest = spectrum[b]
+				// Follow the loudest recent sound so quiet and loud microphones both fill the frame.
+				peakDb = Math.max(loudest, peakDb - 0.6, -58)
+				const out = new Float32Array(COLS)
+				for (let c = 0; c < COLS; c += 1) {
+					const bin = ((c / (COLS - 1)) * FMAX) / binHz
+					const low = Math.min(lastBin, Math.floor(bin))
+					const high = Math.min(lastBin, low + 1)
+					const db = spectrum[low] + (spectrum[high] - spectrum[low]) * (bin - low)
+					const level = Math.min(1, Math.max(0, (db - (peakDb - range)) / range))
+					out[c] = level * level * 1.05 || 0
+				}
+				return out
+			},
+			pitch() {
+				analyser.getFloatTimeDomainData(wave)
+				return detectPitch(wave, audio.sampleRate)
+			},
+			stop() {
+				stream.getTracks().forEach((track) => track.stop())
+				void audio.close()
+			},
+		}
+	}
+
+	function mount(canvas: HTMLCanvasElement) {
+		const ctx = canvas.getContext('2d')
+		if (!ctx) return
+
+		const root = canvas.closest('.waterfall')
+		const controls = root?.querySelector<HTMLElement>('[data-waterfall-controls]')
+		const button = root?.querySelector<HTMLButtonElement>('[data-waterfall-mic]')
+		const status = root?.querySelector<HTMLElement>('[data-waterfall-status]')
+		const pitchLabel = root?.querySelector<HTMLElement>('[data-waterfall-pitch]')
+
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+		const voice = createVoice()
+		const rows: Float32Array[] = []
+		for (let i = 0; i < ROWS + 1; i += 1) rows.unshift(voice())
+
+		let width = 0
+		let height = 0
+		let ink = '#1b1b1b'
+		let paper = '#fcfcfc'
+		let phase = 0
+		let last = 0
+		let start = 0
+		let raf = 0
+		let visible = true
+		let microphone: Microphone | null = null
+		let pitch = 0
+		let quietFrames = 0
+
+		// Camera: drag to turn and tilt, with a slight lean toward the pointer.
+		let yaw = 0
+		let dragYaw = 0
+		let hoverYaw = 0
+		let tilt = 0.5
+		let tiltTarget = 0.5
+		let dragging = false
+		let dragX = 0
+		let dragY = 0
+
+		function readColors() {
+			const styles = getComputedStyle(document.documentElement)
+			ink = styles.getPropertyValue('--ink').trim() || ink
+			paper = styles.getPropertyValue('--paper').trim() || paper
+		}
+
+		function resize() {
+			const rect = canvas.getBoundingClientRect()
+			const dpr = Math.min(window.devicePixelRatio || 1, 2)
+			width = rect.width
+			height = rect.height
+			canvas.width = Math.round(width * dpr)
+			canvas.height = Math.round(height * dpr)
+			ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
+		}
+
+		const xs = new Float32Array(COLS)
+		const ys = new Float32Array(COLS)
+
+		function draw(now: number) {
+			ctx!.clearRect(0, 0, width, height)
+
+			const still = reduceMotion.matches && !microphone
+			const intro = still ? 1 : Math.min(1, (now - start) / 1600)
+			const rise = 1 - (1 - intro) ** 3
+			const sway = still ? 0 : Math.sin(now / 5200) * 0.07
+			const angle = yaw + sway
+			const cosYaw = Math.cos(angle)
+			const sinYaw = Math.sin(angle)
+			const cosTilt = Math.cos(tilt)
+			const sinTilt = Math.sin(tilt)
+
+			// Fit the whole scene inside the canvas at the current tilt.
+			const half = DEPTH / 2
+			const nearDepth = DISTANCE - half * cosTilt
+			const below = (half * sinTilt) / nearDepth
+			const above = (half * sinTilt + PEAK * cosTilt) / (DISTANCE + half * cosTilt - PEAK * sinTilt)
+			const focal = Math.min((height * 0.94) / (below + above), (width * 0.98 * nearDepth) / (2 * HALF_WIDTH))
+			const centerX = width / 2
+			const centerY = (height - (below + above) * focal) / 2 + above * focal
+			const peak = PEAK * rise
+			// Narrow screens show a narrower band, so harmonics stay a few pixels apart.
+			const cols = Math.round(Math.min(COLS, Math.max(90, width / 5)))
+
+			ctx!.lineJoin = 'round'
+
+			for (let i = ROWS; i >= 0; i -= 1) {
+				const row = rows[i]
+				const z = (i + phase) / ROWS
+				if (z > 1) continue
+				const grow = Math.min(1, (i + phase) / 1.6)
+				const scale = peak * grow * grow * (3 - 2 * grow)
+				const zWorld = (z - 0.5) * DEPTH
+
+				let floorX0 = 0
+				let floorY0 = 0
+				let floorX1 = 0
+				let floorY1 = 0
+				for (let c = 0; c < cols; c += 1) {
+					const x = ((c / (cols - 1)) * 2 - 1) * HALF_WIDTH
+					const x1 = x * cosYaw + zWorld * sinYaw
+					const z1 = -x * sinYaw + zWorld * cosYaw
+					// Taper both ends so every line settles back to the floor.
+					const edge = Math.min(1, c / 10, (cols - 1 - c) / 10)
+					const y = row[c] * scale * edge * edge * (3 - 2 * edge)
+					const zc = -y * sinTilt + z1 * cosTilt + DISTANCE
+					const k = focal / zc
+					xs[c] = centerX + x1 * k
+					ys[c] = centerY - (y * cosTilt + z1 * sinTilt) * k
+					if (c === 0 || c === cols - 1) {
+						const zf = z1 * cosTilt + DISTANCE
+						const fy = centerY - z1 * sinTilt * (focal / zf)
+						if (c === 0) {
+							floorX0 = centerX + x1 * (focal / zf)
+							floorY0 = fy
+						} else {
+							floorX1 = centerX + x1 * (focal / zf)
+							floorY1 = fy
+						}
+					}
+				}
+
+				// Fill under the ridge with paper so nearer lines hide the ones behind.
+				ctx!.beginPath()
+				ctx!.moveTo(floorX0, floorY0 + 1)
+				for (let c = 0; c < cols; c += 1) ctx!.lineTo(xs[c], ys[c])
+				ctx!.lineTo(floorX1, floorY1 + 1)
+				ctx!.closePath()
+				ctx!.globalAlpha = 1
+				ctx!.fillStyle = paper
+				ctx!.fill()
+
+				ctx!.beginPath()
+				ctx!.moveTo(xs[0], ys[0])
+				for (let c = 1; c < cols; c += 1) ctx!.lineTo(xs[c], ys[c])
+				const fog = (1 - z) ** 1.5
+				ctx!.globalAlpha = (0.08 + 0.82 * fog) * Math.min(1, grow * 1.4)
+				ctx!.lineWidth = 0.7 + 0.7 * fog
+				ctx!.strokeStyle = ink
+				ctx!.stroke()
+			}
+			ctx!.globalAlpha = 1
+		}
+
+		function showPitch() {
+			if (!pitchLabel) return
+			pitchLabel.textContent = microphone && pitch ? `Pitch ${Math.round(pitch)} Hz` : ''
+		}
+
+		function nextRow(): Float32Array {
+			if (!microphone) return voice()
+			const heard = microphone.pitch()
+			if (heard) {
+				pitch = pitch ? pitch + (heard - pitch) * 0.5 : heard
+				quietFrames = 0
+			} else if ((quietFrames += 1) > 4) {
+				pitch = 0
+			}
+			showPitch()
+			return microphone.frame()
+		}
+
+		function tick(now: number) {
+			raf = 0
+			const elapsed = Math.min(120, now - (last || now))
+			last = now
+			phase += elapsed / HOP_MS
+			while (phase >= 1) {
+				phase -= 1
+				rows.unshift(nextRow())
+				rows.pop()
+			}
+			const ease = Math.min(1, elapsed / 260)
+			yaw += (dragYaw + hoverYaw - yaw) * ease
+			tilt += (tiltTarget - tilt) * ease
+			draw(now)
+			schedule()
+		}
+
+		function schedule() {
+			if (raf || !visible || (reduceMotion.matches && !microphone)) return
+			raf = requestAnimationFrame(tick)
+		}
+
+		function refresh() {
+			readColors()
+			resize()
+			if (!start) start = performance.now()
+			if (reduceMotion.matches && !microphone) phase = 0.5
+			last = 0
+			draw(performance.now())
+			schedule()
+		}
+
+		function stopListening(message = '') {
+			microphone?.stop()
+			microphone = null
+			pitch = 0
+			showPitch()
+			if (status) status.textContent = message
+			if (button) {
+				button.textContent = 'Use your microphone'
+				button.setAttribute('aria-pressed', 'false')
+			}
+		}
+
+		async function startListening() {
+			if (!button) return
+			button.disabled = true
+			if (status) status.textContent = 'Waiting for permission…'
+			try {
+				microphone = await openMicrophone()
+				button.textContent = 'Stop listening'
+				button.setAttribute('aria-pressed', 'true')
+				if (status) status.textContent = 'Listening. Sound stays in your browser.'
+				last = 0
+				schedule()
+			} catch (error) {
+				const name = error instanceof DOMException ? error.name : ''
+				if (name === 'NotAllowedError' || name === 'SecurityError') {
+					stopListening('Microphone access is blocked. Allow it in your browser and try again.')
+				} else if (name === 'NotFoundError') {
+					stopListening('No microphone was found.')
+				} else {
+					stopListening('The microphone could not start.')
+				}
+			} finally {
+				button.disabled = false
+			}
+		}
+
+		if (controls && button && navigator.mediaDevices?.getUserMedia && window.AudioContext) {
+			controls.hidden = false
+			button.addEventListener('click', () => {
+				if (microphone) stopListening()
+				else void startListening()
+			})
+			document.addEventListener('visibilitychange', () => {
+				if (document.hidden && microphone) stopListening()
+			})
+			window.addEventListener('pagehide', () => microphone?.stop())
+		}
+
+		canvas.addEventListener('pointerdown', (event) => {
+			if (event.button !== 0) return
+			dragging = true
+			dragX = event.clientX
+			dragY = event.clientY
+			canvas.setPointerCapture(event.pointerId)
+			canvas.dataset.dragging = ''
+		})
+		canvas.addEventListener('pointermove', (event) => {
+			if (!dragging) return
+			dragYaw = Math.max(-0.6, Math.min(0.6, dragYaw + (event.clientX - dragX) * 0.005))
+			tiltTarget = Math.max(0.3, Math.min(0.85, tiltTarget + (event.clientY - dragY) * 0.004))
+			dragX = event.clientX
+			dragY = event.clientY
+			if (reduceMotion.matches && !microphone) {
+				yaw = dragYaw
+				tilt = tiltTarget
+				draw(performance.now())
+			}
+		})
+		const endDrag = () => {
+			dragging = false
+			delete canvas.dataset.dragging
+		}
+		canvas.addEventListener('pointerup', endDrag)
+		canvas.addEventListener('pointercancel', endDrag)
+		window.addEventListener('pointermove', (event) => {
+			if (event.pointerType !== 'mouse' || dragging) return
+			hoverYaw = (event.clientX / window.innerWidth - 0.5) * 0.2
+		})
+
+		new ResizeObserver(refresh).observe(canvas)
+		new IntersectionObserver((entries) => {
+			visible = entries[0]?.isIntersecting ?? true
+			last = 0
+			schedule()
+		}).observe(canvas)
+		new MutationObserver(refresh).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+		reduceMotion.addEventListener('change', refresh)
+
+		refresh()
+	}
+
+	document.querySelectorAll<HTMLCanvasElement>('[data-waterfall]').forEach(mount)
+</script>

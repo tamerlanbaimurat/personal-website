@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import ProjectCard from '../components/ProjectCard.astro'
+import SpectrogramWaterfall from '../components/SpectrogramWaterfall.astro'
 import { featuredProjects } from '../data/projects'
 ---
 
@@ -12,6 +13,8 @@ import { featuredProjects } from '../data/projects'
 		<p class="intro-note">Currently researching <a href="/research">trustworthy AI for medical documentation</a>.</p>
 		<a class="text-link" href="/about">A little more about me <span aria-hidden="true">↗</span></a>
 	</section>
+
+	<SpectrogramWaterfall />
 
 	<section class="selected-work section-shell" aria-labelledby="work-title">
 		<header class="work-heading">
